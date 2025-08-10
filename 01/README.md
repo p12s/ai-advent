@@ -1,103 +1,103 @@
 # AI Chat Bot
 
-- Подключить любую LLM в свой проект
-- Сделать общение в виде чата внутри своей ллм 
+- Connect any LLM to your project
+- Create chat-like communication within your LLM
 
-Результат: Вы пишете сообщение - она отвечает
-Формат: Код + Видео
+Result: You write a message - it responds
+Format: Code + Video
 
-## Запуск
+## Launch
 ```
 cd ~/ai-advent/01 && npx http-server -p 8080 --cors
 open http://localhost:8080
 ```
 
-## Видео
+## Video
 https://disk.yandex.com/i/6d-m9BD9EA76XQ
 
-## Особенности
+## Features
 
-- 💬 Современный интерфейс чата в стиле мессенджеров
-- 🤖 Интеграция с Ollama для локального ИИ
-- 📱 Адаптивный дизайн
-- ⚡ Быстрые ответы без стриминга
-- 🎨 Красивый UI с пузырьками сообщений
+- 💬 Modern chat interface in messenger style
+- 🤖 Integration with Ollama for local AI
+- 📱 Responsive design
+- ⚡ Fast responses without streaming
+- 🎨 Beautiful UI with message bubbles
 
-## Требования
+## Requirements
 
-- [Ollama](https://ollama.ai/) установлен и запущен
-- Модель `llama3` загружена в Ollama
+- [Ollama](https://ollama.ai/) installed and running
+- `llama3` model loaded in Ollama
 
-## Установка
+## Installation
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
 ```bash
 git clone https://github.com/p12s/ai-advent
 cd ai-advent
 ```
 
-2. Запустите Ollama (если еще не запущен):
+2. Start Ollama (if not already running):
 ```bash
 ollama serve
 ```
 
-3. Убедитесь, что модель llama3 загружена:
+3. Make sure the llama3 model is loaded:
 ```bash
 ollama pull llama3:latest
 ```
 
-4. Запустите веб-сервер:
+4. Start the web server:
 ```bash
 npx http-server -p 8080 --cors
 ```
 
-5. Откройте браузер и перейдите на `http://localhost:8080`
+5. Open your browser and go to `http://localhost:8080`
 
-## Использование
+## Usage
 
-1. Введите ваш вопрос в поле ввода
-2. Нажмите кнопку "Отправить" или клавишу Enter
-3. Дождитесь ответа от ИИ
+1. Enter your question in the input field
+2. Click the "Send" button or press Enter
+3. Wait for the AI response
 
-## Структура проекта
+## Project Structure
 
 ```
 ai-advent/01/
-├── index.html      # Основная HTML страница
-├── styles.css      # CSS стили
-├── app.js          # JavaScript логика
-├── .gitignore      # Исключения для Git
-└── README.md       # Документация
+├── index.html      # Main HTML page
+├── styles.css      # CSS styles
+├── app.js          # JavaScript logic
+├── .gitignore      # Git exclusions
+└── README.md       # Documentation
 ```
 
-## Настройка
+## Configuration
 
-### Изменение модели
+### Changing the Model
 
-В файле `app.js` измените параметр `model` в запросе:
+In the `app.js` file, change the `model` parameter in the request:
 
 ```javascript
-model: 'llama3' // Замените на другую модель
+model: 'llama3' // Replace with another model
 ```
 
-### Настройка параметров
+### Parameter Settings
 
-Можно изменить параметры генерации в `app.js`:
+You can change generation parameters in `app.js`:
 
 ```javascript
 {
     model: 'llama3',
     prompt: '...',
-    temperature: 0.7,    // Креативность (0.0 - 1.0)
-    max_tokens: 1000,    // Максимальная длина ответа
-    stream: false        // Стриминг ответов
+    temperature: 0.7,    // Creativity (0.0 - 1.0)
+    max_tokens: 1000,    // Maximum response length
+    stream: false        // Response streaming
 }
 ```
 
-## Лицензия
+## License
 
 MIT License
 
-## Вклад в проект
+## Contributing
 
-Приветствуются pull request'ы и issues!
+Pull requests and issues are welcome!

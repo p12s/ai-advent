@@ -38,12 +38,12 @@ function sendMessage() {
     
     const sendButton = document.getElementById('send-button');
     sendButton.disabled = true;
-    sendButton.textContent = 'Отправка...';
+    sendButton.textContent = 'Sending...';
     
     addMessage(question, true);
     document.getElementById('question-input').value = '';
     
-    const loadingMessage = addMessage('Получаю ответ...', false, true);
+    const loadingMessage = addMessage('Getting response...', false, true);
     
     fetch('http://localhost:11434/api/generate', {
         method: 'POST',
@@ -52,7 +52,7 @@ function sendMessage() {
         },
         body: JSON.stringify({
             model: 'llama3',
-            prompt: `Ты - полезный ассистент. Всегда отвечай на русском языке, за исключением случаев, когда нужно показать код или технические термины. Вопрос пользователя: ${question}`,
+            prompt: `You are a helpful assistant. Always respond in English, except when you need to show code or technical terms. User question: ${question}`,
             temperature: 0.7,
             max_tokens: 1000,
             stream: false
@@ -65,16 +65,16 @@ function sendMessage() {
         if (data.response) {
             addMessage(data.response, false);
         } else {
-            addMessage('Получен пустой ответ', false);
+            addMessage('Empty response received', false);
         }
         
         sendButton.disabled = false;
-        sendButton.textContent = 'Отправить';
+        sendButton.textContent = 'Send';
     })
     .catch(error => {
         loadingMessage.remove();
-        addMessage('Произошла ошибка при получении ответа.', false);
+        addMessage('An error occurred while getting the response.', false);
         sendButton.disabled = false;
-        sendButton.textContent = 'Отправить';
+        sendButton.textContent = 'Send';
     });
 }
