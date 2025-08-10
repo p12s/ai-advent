@@ -1,0 +1,7 @@
+.cursorignore
+.vscode/
+*.code-workspace
+*.xcworkspace
+*.xcodeproj
+*.xcuserdata
+.DS_Store
