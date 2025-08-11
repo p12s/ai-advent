@@ -14,7 +14,7 @@ open http://localhost:8080
 ```
 
 ## Video
-https://disk.yandex.com/i/6d-m9BD9EA76XQ
+https://disk.yandex.com/i/3QICA3iKOVic-A
 
 ## Features
 
