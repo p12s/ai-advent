@@ -52,7 +52,7 @@ function sendMessage() {
         },
         body: JSON.stringify({
             model: 'llama3',
-            prompt: `You are a helpful assistant. Always respond in English, except when you need to show code or technical terms. User question: ${question}`,
+            prompt: `You are a helpful assistant. Always respond in Russian, except when you need to show code or technical terms. User question: ${question}`,
             temperature: 0.7,
             max_tokens: 1000,
             stream: false

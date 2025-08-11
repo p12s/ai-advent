@@ -1,4 +1,4 @@
-# AI Chat Bot
+# Chatbot
 
 - Connect any LLM to your project
 - Create chat-like communication within your LLM
@@ -66,7 +66,6 @@ ai-advent/01/
 ├── index.html      # Main HTML page
 ├── styles.css      # CSS styles
 ├── app.js          # JavaScript logic
-├── .gitignore      # Git exclusions
 └── README.md       # Documentation
 ```
 
