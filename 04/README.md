@@ -1,6 +1,4 @@
-# Взаимодействие агентов
-
-Специализированный чат-бот с системой взаимодействия двух агентов для сбора требований и планирования разработки приложений.
+# Interaction of agents
 
 - Learn to create multi-agent systems with interaction
 - Set agent behavior for requirements gathering and execution planning
