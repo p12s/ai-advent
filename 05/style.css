@@ -203,11 +203,19 @@ body {
 
 #send-button { 
     padding: 12px 20px; 
-    background-color: #FF6B35;
+    background: linear-gradient(135deg, #F59E0B, #FBBF24, #FCD34D);
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+#send-button:hover {
+    background: linear-gradient(135deg, #FBBF24, #FCD34D, #F59E0B);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
 #send-button:disabled {
