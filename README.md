@@ -7,3 +7,4 @@
 - [03. Requirements Gathering Chatbot](03/README.md)
 - [04. Interaction of agents](04/README.md)
 - [05. MCP Start](05/README.md)
+- [06. MCP Telegram](06/README.md)

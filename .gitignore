@@ -25,3 +25,8 @@ test-browser.spec.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+telegram-mcp/config.json
+telegram-mcp/node_modules/
+telegram-mcp/package-lock.json
+06/config.json
