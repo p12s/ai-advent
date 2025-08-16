@@ -1,62 +1,62 @@
-# Настройка секретов
+# Secrets Configuration
 
-## Важно! Безопасность
+## Important! Security
 
-Файлы с секретами (`config.json`) не отслеживаются Git и добавлены в `.gitignore`.
+Secret files (`config.json`) are not tracked by Git and have been added to `.gitignore`.
 
-## Настройка Telegram
+## Telegram Setup
 
-1. Создайте бота через [@BotFather](https://t.me/BotFather) в Telegram
-2. Получите токен бота
-3. Добавьте бота в группу
-4. Получите chat ID группы (можно использовать [@userinfobot](https://t.me/userinfobot))
+1. Create a bot through [@BotFather](https://t.me/BotFather) on Telegram
+2. Get your bot token
+3. Add the bot to a group
+4. Get the group's chat ID (you can use [@userinfobot](https://t.me/userinfobot))
 
-## Настройка GitHub
+## GitHub Setup
 
-1. Создайте Personal Access Token на GitHub с необходимыми правами
-2. Скопируйте токен
+1. Create a Personal Access Token on GitHub with the necessary permissions
+2. Copy the token
 
-## Конфигурация
+## Configuration
 
-### Для папки `07/`:
-Создайте файл `07/config.json`:
+### For the `07/` folder:
+Create a file `07/config.json`:
 ```json
 {
   "telegram": {
-    "botToken": "ВАШ_ТОКЕН_БОТА",
-    "chatId": "ВАШ_CHAT_ID"
+    "botToken": "YOUR_BOT_TOKEN",
+    "chatId": "YOUR_CHAT_ID"
   },
   "github": {
     "url": "http://localhost:3001",
-    "token": "ВАШ_GITHUB_TOKEN"
+    "token": "YOUR_GITHUB_TOKEN"
   }
 }
 ```
 
-### Для папки `github-mcp/`:
-Создайте файл `github-mcp/config.json`:
+### For the `github-mcp/` folder:
+Create a file `github-mcp/config.json`:
 ```json
 {
   "github": {
-    "token": "ВАШ_GITHUB_TOKEN"
+    "token": "YOUR_GITHUB_TOKEN"
   }
 }
 ```
 
-### Для папки `telegram-mcp/`:
-Создайте файл `telegram-mcp/config.json`:
+### For the `telegram-mcp/` folder:
+Create a file `telegram-mcp/config.json`:
 ```json
 {
   "telegram": {
-    "botToken": "ВАШ_ТОКЕН_БОТА",
-    "chatId": "ВАШ_CHAT_ID"
+    "botToken": "YOUR_BOT_TOKEN",
+    "chatId": "YOUR_CHAT_ID"
   }
 }
 ```
 
-## Запуск
+## Running the Services
 
-После настройки всех конфигураций запустите сервисы:
+After setting up all configurations, start the services:
 
 ```bash
 # GitHub MCP
@@ -65,13 +65,14 @@ cd github-mcp && ./start.sh
 # Telegram MCP  
 cd telegram-mcp && ./start.sh
 
-# Веб-приложение
+# Web application
 cd 07 && npx http-server -p 8080 --cors
 ```
 
-## Безопасность
+## Security
 
-- Никогда не коммитьте файлы с реальными токенами
-- Используйте переменные окружения в продакшене
-- Регулярно обновляйте токены
-- Ограничивайте права токенов минимально необходимыми
+- Never commit files with real tokens
+- Use environment variables in production
+- Regularly update your tokens
+- Limit token permissions to the minimum necessary
+

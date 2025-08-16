@@ -8,3 +8,4 @@
 - [04. Interaction of agents](04/README.md)
 - [05. MCP Start](05/README.md)
 - [06. MCP Telegram](06/README.md)
+- [07. MCP Telegram & GitHub](07/README.md)
