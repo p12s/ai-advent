@@ -1,4 +1,4 @@
-# MCP Update с GitHub интеграцией
+# MCP GitHub Integration
 
 - Use MCP at the last stage, your task is to collect data from any of your systems and make a small report (any, for example, the number of unfinished tasks and analysis of these tasks)
 
