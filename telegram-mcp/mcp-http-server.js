@@ -81,6 +81,37 @@ app.post('/mcp/telegram/send-plan', async (req, res) => {
     }
 });
 
+app.post('/mcp/telegram/send-github-report', async (req, res) => {
+    try {
+        const { report_content, chat_id } = req.body;
+        const targetChatId = chat_id || chatId;
+        
+        if (!bot || !targetChatId) {
+            return res.json({ success: false, error: 'Bot not initialized or chat ID not provided' });
+        }
+        
+        const reportMessage = `🐙 GITHUB АНАЛИЗ ОТЧЕТ\n\n${report_content}\n\n📊 Отчет сгенерирован автоматически`;
+        
+        const maxLength = 4096;
+        if (reportMessage.length > maxLength) {
+            const parts = splitMessage(reportMessage, maxLength);
+            for (let i = 0; i < parts.length; i++) {
+                await bot.telegram.sendMessage(targetChatId, parts[i]);
+                if (i < parts.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+        } else {
+            await bot.telegram.sendMessage(targetChatId, reportMessage);
+        }
+        
+        res.json({ success: true, message: 'GitHub report sent successfully' });
+    } catch (error) {
+        console.error('Error sending GitHub report:', error);
+        res.json({ success: false, error: error.message });
+    }
+});
+
 app.post('/mcp/telegram/send-message', async (req, res) => {
     try {
         const { text, chat_id } = req.body;

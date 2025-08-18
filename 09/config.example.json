@@ -1,0 +1,15 @@
+{
+  "telegram": {
+    "botToken": "YOUR_TOKEN",
+    "chatId": "YOUR_CHAT_ID"
+  },
+  "github": {
+    "url": "http://localhost:3002",
+    "token": "YOUR_TOKEN"
+  },
+  "autoUpdate": {
+    "enabled": true,
+    "intervalMinutes": 60,
+    "startMinute": 15
+  }
+}
