@@ -1,0 +1,15 @@
+{
+  "telegram": {
+    "botToken": "YOUR_BOT_TOKEN_HERE",
+    "chatId": "YOUR_CHAT_ID_HERE"
+  },
+  "github": {
+    "url": "http://github-mcp:3002",
+    "token": "YOUR_GITHUB_TOKEN_HERE"
+  },
+  "autoUpdate": {
+    "enabled": true,
+    "intervalMinutes": 60,
+    "startMinute": 15
+  }
+}

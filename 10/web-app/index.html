@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Telegram & GitHub</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-header">
+            <h1 id="page-title">Сбор требований</h1>
+        </div>
+        
+        <div id="tabs-container">
+            <button class="tab-button active" data-tab="requirements">
+                📋 Сбор требований
+            </button>
+            <button class="tab-button" data-tab="github">
+                🔍 GitHub анализ
+            </button>
+        </div>
+        
+        <div id="tab-content">
+            <div id="requirements-tab" class="tab-content active">
+                <div id="chat-messages"></div>
+                <div id="format-container">
+                    <button class="format-button active" data-format="plain">PLAIN</button>
+                    <button class="format-button" data-format="json">JSON</button>
+                    <button class="format-button" data-format="xml">XML</button>
+                </div>
+                <div id="input-container">
+                    <input type="text" id="question-input" placeholder="Describe your application idea...">
+                    <button id="send-button">Send</button>
+                </div>
+            </div>
+            
+            <div id="github-tab" class="tab-content">
+                <div id="github-container">
+                    <div id="github-messages"></div>
+                    <div id="github-controls">
+                        <button id="agent3-button" class="agent3-button">🔍 Получить данные с GitHub</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="docker-report.js"></script>
+    <script src="gathering-requirements.js"></script>
+    <script src="github-analysis.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
