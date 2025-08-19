@@ -108,10 +108,8 @@ async function startContainer(containerId) {
     try {
         const container = docker.getContainer(containerId);
         
-        // Сначала проверяем статус контейнера
         const containerInfo = await container.inspect();
         
-        // Если контейнер уже запущен, возвращаем информацию о нем
         if (containerInfo.State.Status === 'running') {
             console.log(`Container ${containerId} is already running`);
             return {
@@ -121,7 +119,6 @@ async function startContainer(containerId) {
             };
         }
         
-        // Запускаем контейнер только если он не запущен
         await container.start();
         const updatedContainerInfo = await container.inspect();
         return {
