@@ -3,7 +3,6 @@
 echo "🐳 Docker MCP Server Setup"
 echo "=========================="
 
-# Проверка Node.js
 if ! command -v node &> /dev/null; then
     echo "❌ Node.js не установлен. Пожалуйста, установите Node.js 18+"
     exit 1
@@ -17,7 +16,6 @@ fi
 
 echo "✅ Node.js версия: $(node -v)"
 
-# Проверка npm
 if ! command -v npm &> /dev/null; then
     echo "❌ npm не установлен"
     exit 1
@@ -25,7 +23,6 @@ fi
 
 echo "✅ npm версия: $(npm -v)"
 
-# Проверка Docker
 if ! command -v docker &> /dev/null; then
     echo "❌ Docker не установлен. Пожалуйста, установите Docker"
     exit 1
@@ -33,7 +30,6 @@ fi
 
 echo "✅ Docker версия: $(docker --version)"
 
-# Проверка Docker daemon
 if ! docker info &> /dev/null; then
     echo "❌ Docker daemon не запущен. Пожалуйста, запустите Docker"
     exit 1
@@ -41,7 +37,6 @@ fi
 
 echo "✅ Docker daemon запущен"
 
-# Установка зависимостей
 echo ""
 echo "📦 Установка зависимостей..."
 if [ ! -d "node_modules" ]; then
@@ -50,7 +45,6 @@ else
     npm install
 fi
 
-# Проверка портов
 check_port() {
     local port=$1
     if lsof -Pi :$port -sTCP:LISTEN -t >/dev/null ; then
@@ -72,7 +66,6 @@ fi
 
 echo "✅ Порты 3003 и 3004 свободны"
 
-# Создание конфигурации
 if [ ! -f "config.json" ]; then
     echo ""
     echo "⚙️  Создание конфигурации..."
@@ -80,19 +73,19 @@ if [ ! -f "config.json" ]; then
     echo "✅ Конфигурация создана. При необходимости отредактируйте config.json"
 fi
 
-# Запуск серверов
+
 echo ""
 echo "🚀 Запуск серверов..."
 
-# Запуск Docker MCP сервера в фоне
+
 echo "Запуск Docker MCP сервера на порту 3003..."
 node mcp-docker-server.js &
 DOCKER_MCP_PID=$!
 
-# Ожидание запуска
+
 sleep 2
 
-# Проверка запуска Docker MCP сервера
+
 if ! curl -s http://localhost:3003/mcp/docker/health > /dev/null; then
     echo "❌ Docker MCP сервер не запустился"
     kill $DOCKER_MCP_PID 2>/dev/null
@@ -101,15 +94,15 @@ fi
 
 echo "✅ Docker MCP сервер запущен (PID: $DOCKER_MCP_PID)"
 
-# Запуск HTTP прокси в фоне
+
 echo "Запуск HTTP прокси на порту 3004..."
 node mcp-http-server.js &
 PROXY_PID=$!
 
-# Ожидание запуска
+
 sleep 2
 
-# Проверка запуска прокси
+
 if ! curl -s http://localhost:3004/health > /dev/null; then
     echo "❌ HTTP прокси не запустился"
     kill $DOCKER_MCP_PID $PROXY_PID 2>/dev/null
@@ -118,7 +111,7 @@ fi
 
 echo "✅ HTTP прокси запущен (PID: $PROXY_PID)"
 
-# Сохранение PID в файл
+
 echo $DOCKER_MCP_PID > .docker-mcp.pid
 echo $PROXY_PID > .proxy.pid
 
@@ -145,9 +138,9 @@ echo "   pkill -f 'mcp-docker-server.js'"
 echo "   pkill -f 'mcp-http-server.js'"
 echo ""
 
-# Ожидание сигнала завершения
+
 trap 'echo ""; echo "🛑 Остановка серверов..."; kill $DOCKER_MCP_PID $PROXY_PID 2>/dev/null; rm -f .docker-mcp.pid .proxy.pid; echo "✅ Серверы остановлены"; exit 0' INT TERM
 
-# Ожидание
+
 echo "Нажмите Ctrl+C для остановки серверов..."
 wait
