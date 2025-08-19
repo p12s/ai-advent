@@ -1,39 +1,39 @@
 # Docker MCP Server
 
-Мощный MCP (Model Context Protocol) сервер для управления Docker контейнерами, развертывания приложений и мониторинга контейнеров.
+A powerful MCP (Model Context Protocol) server for managing Docker containers, deploying applications, and monitoring container health.
 
-## Возможности
+## Features
 
-- 🐳 **Управление контейнерами** - Создание, запуск, остановка и удаление контейнеров
-- 📦 **Управление образами** - Загрузка и управление Docker образами
-- 📊 **Мониторинг системы** - Информация о Docker системе и ресурсах
-- 📋 **Логи контейнеров** - Получение логов контейнеров в реальном времени
-- 🔗 **RESTful API** - Чистые HTTP эндпоинты для легкой интеграции
-- 🚀 **Двойная архитектура** - MCP сервер + HTTP прокси для максимальной гибкости
-- 🛡️ **Безопасность** - Поддержка Docker socket и TCP соединений
+- 🐳 **Container Management** - Create, start, stop, and remove containers
+- 📦 **Image Management** - Pull and manage Docker images
+- 📊 **System Monitoring** - Docker system information and resource monitoring
+- 📋 **Container Logs** - Real-time container log retrieval
+- 🔗 **RESTful API** - Clean HTTP endpoints for easy integration
+- 🚀 **Dual Architecture** - MCP server + HTTP proxy for maximum flexibility
+- 🛡️ **Security** - Support for Docker socket and TCP connections
 
-## Быстрый старт
+## Quick Start
 
-### Требования
+### Requirements
 
-- Node.js 18+ (с встроенной поддержкой fetch)
-- npm или yarn
-- Docker (установленный и запущенный)
+- Node.js 18+ (with built-in fetch support)
+- npm or yarn
+- Docker (installed and running)
 
-### Установка
+### Installation
 
-1. **Клонирование и установка зависимостей:**
+1. **Clone and install dependencies:**
    ```bash
    cd docker-mcp
    npm install
    ```
 
-2. **Настройка конфигурации:**
+2. **Configure settings:**
    ```bash
    cp config.example.json config.json
    ```
 
-3. **При необходимости отредактируйте `config.json`:**
+3. **Edit `config.json` if needed:**
    ```json
    {
      "docker": {
@@ -44,50 +44,50 @@
    }
    ```
 
-### Запуск сервисов
+### Starting Services
 
-#### Вариант 1: Быстрый старт (Рекомендуется)
+#### Option 1: Quick Start (Recommended)
 ```bash
 ./start.sh
 ```
 
-Этот скрипт автоматически:
-- Проверяет установку Node.js и npm
-- Устанавливает зависимости
-- Проверяет доступность портов
-- Запускает Docker MCP сервер (порт 3003)
-- Запускает HTTP прокси сервер (порт 3004)
+This script automatically:
+- Checks Node.js and npm installation
+- Installs dependencies
+- Verifies port availability
+- Starts Docker MCP server (port 3003)
+- Starts HTTP proxy server (port 3004)
 
-#### Вариант 2: Ручной запуск
+#### Option 2: Manual Start
 
-**Запуск Docker MCP сервера:**
+**Start Docker MCP server:**
 ```bash
 npm start
-# или
+# or
 node mcp-docker-server.js
 ```
 
-**Запуск HTTP прокси (опционально):**
+**Start HTTP proxy (optional):**
 ```bash
 npm run http-server
-# или
+# or
 node mcp-http-server.js
 ```
 
-**Запуск тестов:**
+**Run tests:**
 ```bash
 npm test
-# или
+# or
 node test-docker-api.js
 ```
 
-## API Справочник
+## API Reference
 
-### Инициализация
+### Initialization
 
 **POST** `/mcp/docker/init`
 
-Инициализация Docker MCP с настройками подключения.
+Initialize Docker MCP with connection settings.
 
 ```json
 {
@@ -97,25 +97,25 @@ node test-docker-api.js
 }
 ```
 
-### Информация о системе
+### System Information
 
 **GET** `/mcp/docker/system/info`
 
-Получение информации о Docker системе.
+Get Docker system information.
 
 **GET** `/mcp/docker/health`
 
-Проверка состояния Docker соединения.
+Check Docker connection status.
 
-### Управление контейнерами
+### Container Management
 
 **GET** `/mcp/docker/containers`
 
-Получение списка всех контейнеров.
+Get list of all containers.
 
 **POST** `/mcp/docker/container/create`
 
-Создание нового контейнера.
+Create a new container.
 
 ```json
 {
@@ -133,7 +133,7 @@ node test-docker-api.js
 
 **POST** `/mcp/docker/container/start`
 
-Запуск контейнера.
+Start a container.
 
 ```json
 {
@@ -143,7 +143,7 @@ node test-docker-api.js
 
 **POST** `/mcp/docker/container/stop`
 
-Остановка контейнера.
+Stop a container.
 
 ```json
 {
@@ -153,7 +153,7 @@ node test-docker-api.js
 
 **DELETE** `/mcp/docker/container/remove`
 
-Удаление контейнера.
+Remove a container.
 
 ```json
 {
@@ -164,21 +164,21 @@ node test-docker-api.js
 
 **GET** `/mcp/docker/container/logs/:containerId`
 
-Получение логов контейнера.
+Get container logs.
 
 ```
 GET /mcp/docker/container/logs/container_id?tail=100
 ```
 
-### Управление образами
+### Image Management
 
 **GET** `/mcp/docker/images`
 
-Получение списка всех образов.
+Get list of all images.
 
 **POST** `/mcp/docker/image/pull`
 
-Загрузка образа из реестра.
+Pull an image from registry.
 
 ```json
 {
@@ -187,12 +187,12 @@ GET /mcp/docker/container/logs/container_id?tail=100
 }
 ```
 
-## Примеры использования
+## Usage Examples
 
-### Развертывание веб-приложения
+### Deploying a Web Application
 
 ```bash
-# Создание контейнера с nginx
+# Create nginx container
 curl -X POST http://localhost:3003/mcp/docker/container/create \
   -H "Content-Type: application/json" \
   -d '{
@@ -208,59 +208,59 @@ curl -X POST http://localhost:3003/mcp/docker/container/create \
   }'
 ```
 
-### Мониторинг контейнеров
+### Container Monitoring
 
 ```bash
-# Получение списка контейнеров
+# Get container list
 curl http://localhost:3003/mcp/docker/containers
 
-# Получение логов контейнера
+# Get container logs
 curl http://localhost:3003/mcp/docker/container/logs/container_id?tail=50
 ```
 
-### Управление жизненным циклом
+### Lifecycle Management
 
 ```bash
-# Остановка контейнера
+# Stop container
 curl -X POST http://localhost:3003/mcp/docker/container/stop \
   -H "Content-Type: application/json" \
   -d '{"containerId": "container_id"}'
 
-# Удаление контейнера
+# Remove container
 curl -X DELETE http://localhost:3003/mcp/docker/container/remove \
   -H "Content-Type: application/json" \
   -d '{"containerId": "container_id", "force": true}'
 ```
 
-## HTTP Прокси
+## HTTP Proxy
 
-Сервер также предоставляет HTTP прокси на порту 3004 для упрощения интеграции:
+The server also provides an HTTP proxy on port 3004 for easier integration:
 
 ```bash
-# Через прокси
+# Through proxy
 curl http://localhost:3004/api/mcp/docker/containers
 curl http://localhost:3004/api/mcp/docker/system/info
 ```
 
-## Тестирование
+## Testing
 
-Запустите тесты для проверки функциональности:
+Run tests to verify functionality:
 
 ```bash
 npm test
 ```
 
-Для очистки тестовых контейнеров:
+To clean up test containers:
 
 ```bash
 node test-docker-api.js --cleanup
 ```
 
-## Конфигурация
+## Configuration
 
 ### Docker Socket (Linux/macOS)
 
-По умолчанию используется Unix socket:
+By default, Unix socket is used:
 
 ```json
 {
@@ -272,7 +272,7 @@ node test-docker-api.js --cleanup
 
 ### Docker TCP (Windows/Remote)
 
-Для TCP соединения:
+For TCP connection:
 
 ```json
 {
@@ -283,34 +283,34 @@ node test-docker-api.js --cleanup
 }
 ```
 
-## Безопасность
+## Security
 
-- Убедитесь, что Docker daemon настроен правильно
-- Используйте Docker socket только в доверенной среде
-- Для продакшена настройте TLS соединение с Docker daemon
+- Ensure Docker daemon is properly configured
+- Use Docker socket only in trusted environments
+- For production, configure TLS connection with Docker daemon
 
-## Устранение неполадок
+## Troubleshooting
 
-### Docker не доступен
+### Docker Not Available
 
 ```bash
-# Проверка Docker daemon
+# Check Docker daemon
 docker info
 
-# Проверка прав доступа к socket
+# Check socket permissions
 ls -la /var/run/docker.sock
 ```
 
-### Порт занят
+### Port in Use
 
-Измените порты в файлах:
-- `mcp-docker-server.js` (порт 3003)
-- `mcp-http-server.js` (порт 3004)
+Change ports in files:
+- `mcp-docker-server.js` (port 3003)
+- `mcp-http-server.js` (port 3004)
 
-### Ошибки подключения
+### Connection Errors
 
-Проверьте конфигурацию в `config.json` и убедитесь, что Docker daemon запущен.
+Check configuration in `config.json` and ensure Docker daemon is running.
 
-## Лицензия
+## License
 
 MIT License
