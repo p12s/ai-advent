@@ -7,6 +7,9 @@ Result: Make sure that the automated tests work correctly and check the code
 
 Format: Video + Code
 
+### Video
+https://disk.yandex.com/i/t7n2v5OSFobyVQ
+
 ### What's Been Added:
 
 1. **New endpoint in telegram-mcp**: `/mcp/telegram/send-github-report`
@@ -30,7 +33,13 @@ Format: Video + Code
    - HTTP proxy for Docker MCP API
    - Automatic container creation and management for HTML reports
 
-5. **Workflow**:
+5. **🆕 Automated Testing for docker-report**:
+   - Added comprehensive test suite for `docker-report.js` module
+   - Tests cover HTML generation, data parsing, and Docker container management
+   - Jest testing framework with custom test utilities
+   - Test runner interface for easy test execution
+
+6. **Workflow**:
    ```
    1. Scheduled retrieval of data from GitHub MCP
    2. Report generation with repository and issue analysis
@@ -57,6 +66,13 @@ Format: Video + Code
 - **🆕 Added `DockerReportManager` class for container management**
 - **🆕 Complete HTML/CSS template with responsive design**
 
+**🆕 In `docker-report.test.js`:**
+- **🆕 Added comprehensive test suite for `docker-report.js` module**
+- **🆕 Tests for `createHtmlReport()` function with various data scenarios**
+- **🆕 Tests for `parseGitHubDataFromReport()` function with different report formats**
+- **🆕 Tests for `DockerReportManager` class methods**
+- **🆕 Mock implementations for Docker MCP API calls**
+
 **In `telegram-mcp/mcp-http-server.js`:**
 - Added new endpoint `/mcp/telegram/send-github-report`
 - Long message handling with splitting
@@ -71,12 +87,22 @@ Format: Video + Code
 - HTTP proxy for Docker MCP API
 - Environment variable support for Docker MCP URL
 
+**🆕 In `test-utils.js`:**
+- **🆕 Added test utilities for Docker MCP API mocking**
+- **🆕 Helper functions for test data generation**
+- **🆕 Mock implementations for container operations**
+
+**🆕 In `jest.setup.js`:**
+- **🆕 Jest configuration for test environment setup**
+- **🆕 Global test utilities and mock configurations**
+
 ### Usage:
 
 1. **Automatic updates**: Reports are sent automatically on schedule
 2. **Manual updates**: Click "🔍 Get GitHub Data" button on second tab
 3. **Status viewing**: Interface displays "📱 Report sent to Telegram" message
 4. **🆕 HTML reports**: Click "🌐 Открыть HTML-отчет" button to view report in browser
+5. **🆕 Testing**: Run tests using Jest framework for `docker-report.js` module
 
 ### Configuration:
 
@@ -178,6 +204,12 @@ Agent3 - GitHub Analysis
 - **🆕 Automatically sends reports to Telegram**
 - **🆕 Creates and deploys HTML reports in Docker containers**
 
+**🆕 Testing Framework**
+- **🆕 Automated tests for `docker-report.js` module**
+- **🆕 Jest test runner with comprehensive test coverage**
+- **🆕 Test utilities for mocking Docker MCP API**
+- **🆕 HTML test runner interface for browser-based testing**
+
 🔧 Troubleshooting
 
 Common Issues
@@ -200,6 +232,11 @@ Common Issues
    - Check Docker MCP logs: `./logs-docker.sh docker`
    - Verify nginx image availability
    - Check port availability for report containers
+
+5. **🆕 Test execution issues**
+   - Ensure Jest is installed: `npm install`
+   - Run tests: `npm test`
+   - Check test coverage: `npm run test:coverage`
 
 Logs
 
@@ -230,12 +267,18 @@ docker-compose up --build -d
 File Structure
 
 ```
-08/
+11/
 ├── web-app/           # Web application
 ├── docker-compose.yml # Docker configuration
 ├── start-docker.sh    # Start script
 ├── stop-docker.sh     # Stop script
-└── logs-docker.sh     # Logs script
+├── logs-docker.sh     # Logs script
+├── package.json       # Node.js dependencies and scripts
+├── jest.setup.js      # Jest configuration
+├── test-utils.js      # Test utilities
+├── docker-report.test.js # Tests for docker-report module
+├── test-runner.html   # HTML test runner interface
+└── test-simple.html   # Simple test interface
 ```
 
 📄 License

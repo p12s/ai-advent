@@ -12,3 +12,4 @@
 - [08. MCP GitHub Autoupdate](08/README.md)
 - [09. MCP GitHub Autoupdate with Docker](09/README.md)
 - [10. MCP GitHub Autoupdate with Docker & HTML Reports](10/README.md)
+- [10. Docker HTML Report tests](11/README.md)
