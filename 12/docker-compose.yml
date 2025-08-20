@@ -1,0 +1,73 @@
+services:
+  github-mcp:
+    build:
+      context: ../github-mcp
+      dockerfile: Dockerfile
+    container_name: github-mcp
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - GITHUB_MCP_URL=http://localhost:3001
+    volumes:
+      - ../github-mcp/config.json:/app/config.json:ro
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  telegram-mcp:
+    build:
+      context: ../telegram-mcp
+      dockerfile: Dockerfile
+    container_name: telegram-mcp
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ../telegram-mcp/config.json:/app/config.json:ro
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  docker-mcp:
+    build:
+      context: ../docker-mcp
+      dockerfile: Dockerfile
+    container_name: docker-mcp
+    ports:
+      - "3003:3003"
+      - "3004:3004"
+    environment:
+      - NODE_ENV=production
+      - DOCKER_MCP_URL=http://localhost:3003
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../docker-mcp/config.json:/app/config.json:ro
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+  web-app:
+    build:
+      context: .
+      dockerfile: web-app/Dockerfile
+    container_name: web-app
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./web-app/config.json:/app/config.json:ro
+    depends_on:
+      - github-mcp
+      - telegram-mcp
+      - docker-mcp
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
+networks:
+  mcp-network:
+    driver: bridge

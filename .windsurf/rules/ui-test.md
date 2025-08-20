@@ -1,0 +1,10 @@
+---
+trigger: always_on
+description: Автоматическое создание скриншотов UI при изменениях в HTML, JS и CSS файлах
+globs: ["**/*.html", "**/*.js", "**/*.css"]
+---
+When code is changed in HTML, JS or CSS files
+Then
+  run browser_screenshot on http://localhost:8080/
+  save result to ./test-artifacts/screenshots/
+  name the screenshot with timestamp and filename pattern
