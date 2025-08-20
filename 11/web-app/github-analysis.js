@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-let mcpGithubEnabled = false;
+window.mcpGithubEnabled = false;
 let autoUpdateInterval = null;
 
 window.githubConfig = {
@@ -36,7 +36,7 @@ class GitHubAgent {
      * @returns {Promise<Object>} GitHub data analysis result
      */
     async getGitHubData() {
-        if (!mcpGithubEnabled) {
+        if (!window.mcpGithubEnabled) {
             return {
                 type: 'error',
                 content: '❌ GitHub MCP не подключен. Проверьте конфигурацию.',
@@ -115,7 +115,7 @@ ${analysis.totalIssues > 0 ? `- 🔴 Требуется внимание: ${anal
  * @returns {Promise<Object|null>} GitHub data or null on error
  */
 async function getGithubData() {
-    if (!mcpGithubEnabled) return null;
+    if (!window.mcpGithubEnabled) return null;
     
     try {
         const reposResponse = await fetch('http://localhost:3002/tools/call', {
@@ -239,6 +239,7 @@ async function createAndDeployHtmlReport(githubData) {
  */
 async function initMCPGithub() {
     try {
+        console.log('🔍 Initializing GitHub MCP connection...');
         const response = await fetch('http://localhost:3001/health', {
             method: 'GET',
             headers: {
@@ -248,17 +249,22 @@ async function initMCPGithub() {
         
         if (response.ok) {
             const healthData = await response.json();
+            console.log('📊 GitHub MCP health data:', healthData);
+            
             if (healthData.github_initialized) {
-                mcpGithubEnabled = true;
-        
+                window.mcpGithubEnabled = true;
+                console.log('✅ GitHub MCP successfully initialized');
             } else {
-                console.error('GitHub MCP server is running but not initialized');
+                console.error('❌ GitHub MCP server is running but not initialized');
+                window.mcpGithubEnabled = false;
             }
         } else {
-            console.error('Failed to connect to GitHub MCP server:', response.status);
+            console.error('❌ Failed to connect to GitHub MCP server:', response.status);
+            window.mcpGithubEnabled = false;
         }
     } catch (error) {
-        console.error('Error initializing GitHub MCP:', error);
+        console.error('❌ Error initializing GitHub MCP:', error);
+        window.mcpGithubEnabled = false;
     }
 }
 
@@ -267,7 +273,7 @@ async function initMCPGithub() {
  * @returns {Promise<void>}
  */
 async function performAutoGitHubUpdate() {
-    if (!mcpGithubEnabled) {
+    if (!window.mcpGithubEnabled) {
 
         return;
     }
