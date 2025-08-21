@@ -1,41 +1,34 @@
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Установка зависимостей для сборки и Docker
-RUN apk add --no-cache \
-    python3 \
-    make \
-    g++ \
-    docker \
-    docker-compose \
-    git \
-    curl
+RUN apk add --no-cache curl && \
+    addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
-# Копирование package.json и установка зависимостей
+COPY --from=builder /app/node_modules ./node_modules
 COPY package*.json ./
-RUN npm install --production
+COPY *.js ./
+COPY public/ ./public/
 
-# Копирование исходного кода
-COPY . .
+RUN mkdir -p uploads test-runs web-results public && \
+    chown -R nodejs:nodejs /app
 
-# Создание необходимых директорий
-RUN mkdir -p uploads test-runs web-results logs public
+USER nodejs
 
-# Установка прав на скрипты
-RUN chmod +x start-agent.sh start-both-servers.sh start-simple.sh
+EXPOSE 3006
 
-# Открытие портов
-EXPOSE 3005 3006
-
-# Переменные окружения
 ENV NODE_ENV=production
-ENV HTTP_PORT=3006
-ENV MCP_PORT=3005
+ENV PORT=3006
 
-# Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3006/health || exit 1
 
-# Команда запуска обоих серверов
-CMD ["./start-simple.sh"]
+CMD ["node", "mcp-http-server.js"]
