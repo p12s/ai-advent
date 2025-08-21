@@ -23,7 +23,7 @@ Create configuration files:
 }
 ```
 
-`config.json` (in 08/ folder)
+`config.json` (in 12/ folder)
 ```json
 {
   "telegram": {
@@ -33,6 +33,35 @@ Create configuration files:
   "github": {
     "url": "http://github-mcp:3002",
     "token": "YOUR_GITHUB_TOKEN"
+  }
+}
+```
+
+`../test-agent-mcp/config.json`
+```json
+{
+  "ollama": {
+    "url": "http://localhost:11434",
+    "model": "phi4:14b"
+  },
+  "docker": {
+    "url": "http://docker-mcp:3004",
+    "socketPath": "/var/run/docker.sock"
+  },
+  "telegram": {
+    "url": "http://telegram-mcp:3000"
+  },
+  "github": {
+    "url": "http://github-mcp:3002"
+  },
+  "testSettings": {
+    "timeout": 300,
+    "memoryLimit": "512m",
+    "supportedLanguages": ["javascript", "python", "java", "go", "typescript"]
+  },
+  "server": {
+    "port": 3005,
+    "httpPort": 3006
   }
 }
 ```
@@ -60,6 +89,7 @@ docker-compose ps
 - 🌐 Web Application: http://localhost:8080
 - 📱 Telegram MCP: http://localhost:3000/health
 - 🐙 GitHub MCP: http://localhost:3002/health
+- 🧪 Test Agent MCP: http://localhost:3006/health
 
 🆘 If Something's Not Working
 

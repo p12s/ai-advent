@@ -1,286 +1,248 @@
-# Testing
+# AI Test Agent - Автоматическое тестирование кода с ИИ
 
-- Write simple code (a couple of functions or classes)
-- Write automated tests using AI for it
+🧪 **AI Test Agent** - интеллектуальная система для автоматической генерации и выполнения тестов кода с помощью искусственного интеллекта.
 
-Result: Make sure that the automated tests work correctly and check the code
+## 🚀 Возможности
 
-Format: Video + Code
+- **🤖 AI-генерация тестов** - автоматическое создание unit тестов с помощью Ollama
+- **🐳 Docker-изоляция** - выполнение тестов в изолированных контейнерах
+- **📊 Детальная отчетность** - красивые HTML отчеты с результатами тестирования
+- **🔗 MCP интеграция** - полная интеграция с существующими MCP сервисами
+- **🌐 Веб-интерфейс** - удобный интерфейс для загрузки и тестирования кода
 
-### Video
-https://disk.yandex.com/i/t7n2v5OSFobyVQ
+## 📋 Поддерживаемые языки
 
-### What's Been Added:
+- **JavaScript/TypeScript** - Jest
+- **Python** - pytest
+- **Java** - JUnit
+- **Go** - testing
+- **Ruby** - RSpec
+- **PHP** - PHPUnit
+- **C#** - NUnit
+- **Rust** - cargo test
 
-1. **New endpoint in telegram-mcp**: `/mcp/telegram/send-github-report`
-   - Receives GitHub reports and sends them to Telegram
-   - Automatically splits long messages into parts
-   - Adds header "🐙 GITHUB ANALYSIS REPORT"
+## 🏗️ Архитектура
 
-2. **Automatic report delivery**:
-   - When GitHub data is automatically updated (on schedule)
-   - When manually retrieving data via "🔍 Get GitHub Data" button
-   - Reports are sent immediately after successful data retrieval
+```
+12/
+├── web-app/                    # Веб-приложение
+│   ├── app.js                 # Основной файл приложения
+│   ├── test-agent.js          # Модуль для работы с test-agent-mcp
+│   ├── test-agent-module.js   # UI модуль для тестирования
+│   ├── example-test.js        # Пример файла для тестирования
+│   └── index.html             # Главная страница
+├── test-agent-mcp/            # MCP сервер для тестирования
+│   ├── mcp-test-server.js     # Основной MCP сервер
+│   ├── mcp-http-server.js     # HTTP API сервер
+│   └── config.json           # Конфигурация
+└── README.md                 # Документация
+```
 
-3. **🆕 HTML Report Generation and Deployment**:
-   - GitHub reports are automatically converted to beautiful HTML format
-   - HTML reports are deployed in Docker containers using nginx
-   - Each report gets a unique URL accessible via browser
-   - Reports include responsive design and modern UI
+## 🚀 Быстрый старт
 
-4. **🆕 Docker MCP Integration**:
-   - Added Docker MCP server for container management
-   - HTTP proxy for Docker MCP API
-   - Automatic container creation and management for HTML reports
-
-5. **🆕 Automated Testing for docker-report**:
-   - Added comprehensive test suite for `docker-report.js` module
-   - Tests cover HTML generation, data parsing, and Docker container management
-   - Jest testing framework with custom test utilities
-   - Test runner interface for easy test execution
-
-6. **Workflow**:
-   ```
-   1. Scheduled retrieval of data from GitHub MCP
-   2. Report generation with repository and issue analysis
-   3. Report automatically sent to Telegram via telegram-mcp
-   4. HTML report generated and deployed in Docker container
-   5. Report URL provided in interface for easy access
-   ```
-
-### Technical Changes:
-
-**In `app.js`:**
-- Added `sendGitHubReportToTelegram()` function
-- Exported function to global scope
-
-**In `github-analysis.js`:**
-- Modified `performAutoGitHubUpdate()` function for automatic delivery
-- Modified Agent3 button handler for automatic delivery
-- Added Telegram delivery status messages
-- **🆕 Refactored to use `docker-report.js` module for HTML generation and deployment**
-
-**🆕 In `docker-report.js`:**
-- **🆕 Added `createHtmlReport()` function for HTML generation with modern CSS**
-- **🆕 Added `parseGitHubDataFromReport()` function for data parsing**
-- **🆕 Added `DockerReportManager` class for container management**
-- **🆕 Complete HTML/CSS template with responsive design**
-
-**🆕 In `docker-report.test.js`:**
-- **🆕 Added comprehensive test suite for `docker-report.js` module**
-- **🆕 Tests for `createHtmlReport()` function with various data scenarios**
-- **🆕 Tests for `parseGitHubDataFromReport()` function with different report formats**
-- **🆕 Tests for `DockerReportManager` class methods**
-- **🆕 Mock implementations for Docker MCP API calls**
-
-**In `telegram-mcp/mcp-http-server.js`:**
-- Added new endpoint `/mcp/telegram/send-github-report`
-- Long message handling with splitting
-- Report formatting with header
-
-**🆕 In `docker-mcp/mcp-docker-server.js`:**
-- Added `execCommand()` function for container command execution
-- Added `/mcp/docker/container/exec` endpoint
-- Enhanced container management capabilities
-
-**🆕 In `docker-mcp/mcp-http-server.js`:**
-- HTTP proxy for Docker MCP API
-- Environment variable support for Docker MCP URL
-
-**🆕 In `test-utils.js`:**
-- **🆕 Added test utilities for Docker MCP API mocking**
-- **🆕 Helper functions for test data generation**
-- **🆕 Mock implementations for container operations**
-
-**🆕 In `jest.setup.js`:**
-- **🆕 Jest configuration for test environment setup**
-- **🆕 Global test utilities and mock configurations**
-
-### Usage:
-
-1. **Automatic updates**: Reports are sent automatically on schedule
-2. **Manual updates**: Click "🔍 Get GitHub Data" button on second tab
-3. **Status viewing**: Interface displays "📱 Report sent to Telegram" message
-4. **🆕 HTML reports**: Click "🌐 Открыть HTML-отчет" button to view report in browser
-5. **🆕 Testing**: Run tests using Jest framework for `docker-report.js` module
-
-### Configuration:
-
-Ensure `config.json` is configured with:
-- Telegram bot token and chat ID
-- GitHub token
-- Automatic update settings
-
-## 🐳 Running with Docker
-
-Quick Start
+### 1. Запуск test-agent-mcp сервера
 
 ```bash
-./start-docker.sh
+# Перейдите в директорию test-agent-mcp
+cd test-agent-mcp
 
-./stop-docker.sh
+# Установите зависимости
+npm install
 
-./logs-docker.sh          # All services
-./logs-docker.sh web      # Web application only
-./logs-docker.sh telegram # Telegram MCP only
-./logs-docker.sh github   # GitHub MCP only
-./logs-docker.sh docker   # Docker MCP only
+# Настройте конфигурацию
+cp config.example.json config.json
+
+# Запустите сервер
+./start.sh
 ```
 
-Manual Start
+### 2. Запуск веб-приложения
 
 ```bash
-docker-compose up --build -d
+# Вернитесь в корневую директорию
+cd ..
 
-docker-compose logs -f
-
-docker-compose down
+# Запустите HTTP сервер
+npx http-server -p 8080 --cors
 ```
 
-📋 Configuration
+### 3. Откройте приложение
 
-1. Telegram Configuration
+Перейдите по адресу: `http://localhost:8080`
 
-Create a `config.json` file in the `telegram-mcp/` folder:
+## 🧪 Использование
+
+### Автоматическое тестирование
+
+1. **Откройте приложение** в браузере
+2. **Нажмите кнопку "🧪 Test Code"** в панели управления
+3. **Выберите способ тестирования:**
+
+#### 📁 Загрузка файла
+- Нажмите "📁 Выбрать файл для тестирования"
+- Выберите файл с кодом (поддерживаются .js, .ts, .py, .java, .go, .rb, .php, .cs, .rs)
+- Система автоматически определит язык программирования
+
+#### 📝 Ввод кода вручную
+- Выберите язык программирования
+- Введите имя файла
+- Вставьте код в текстовое поле
+
+4. **Нажмите "🚀 Запустить тесты"**
+
+### Процесс тестирования
+
+1. **📄 Анализ кода** - определение языка программирования
+2. **🤖 Генерация тестов** - создание тестов с помощью ИИ (Ollama)
+3. **🐳 Создание контейнера** - подготовка среды для тестирования
+4. **🚀 Запуск тестов** - выполнение тестов в изолированной среде
+5. **📊 Анализ результатов** - парсинг и анализ результатов
+6. **📄 Создание отчета** - генерация HTML отчета
+7. **🌐 Развертывание** - публикация отчета в Docker контейнере
+
+### Результаты тестирования
+
+После завершения тестирования вы получите:
+
+- **📊 Статистику тестов** - общее количество, пройденные, проваленные
+- **📈 Процент успешности** - соотношение пройденных к общему количеству тестов
+- **📄 HTML отчет** - детальный отчет с исходным кодом, сгенерированными тестами и результатами
+- **🔗 Ссылку на отчет** - автоматически открывается в новой вкладке
+
+## ⚙️ Конфигурация
+
+### config.json (test-agent-mcp)
+
 ```json
 {
-  "telegram": {
-    "botToken": "YOUR_BOT_TOKEN",
-    "chatId": "YOUR_CHAT_ID"
-  }
-}
-```
-
-2. GitHub Configuration
-
-Create a `config.json` file in the `github-mcp/` folder:
-```json
-{
-  "github": {
-    "token": "YOUR_GITHUB_TOKEN"
-  }
-}
-```
-
-3. Web Application Configuration
-
-Create a `config.json` file in the `08/` folder:
-```json
-{
-  "telegram": {
-    "botToken": "YOUR_BOT_TOKEN",
-    "chatId": "YOUR_CHAT_ID"
+  "ollama": {
+    "url": "http://localhost:11434",
+    "model": "phi4:14b"
   },
-  "github": {
-    "url": "http://github-mcp:3002",
-    "token": "YOUR_GITHUB_TOKEN"
+  "docker": {
+    "url": "http://docker-mcp:3004",
+    "socketPath": "/var/run/docker.sock"
+  },
+  "testSettings": {
+    "timeout": 300,
+    "memoryLimit": "512m",
+    "supportedLanguages": ["javascript", "python", "java", "go"],
+    "testImages": {
+      "javascript": "node:18-alpine",
+      "python": "python:3.11-alpine",
+      "java": "openjdk:17-alpine",
+      "go": "golang:1.21-alpine"
+    }
+  },
+  "server": {
+    "port": 3005,
+    "httpPort": 3006
   }
 }
 ```
 
-🌐 Available Services
+## 📊 Примеры использования
 
-- **Web Application**: http://localhost:8080
-- **Telegram MCP**: http://localhost:3000
-- **GitHub MCP**: http://localhost:3002
-- **🆕 Docker MCP**: http://localhost:3004
+### Тестирование JavaScript кода
 
-📱 Functionality
+```javascript
+function add(a, b) {
+    return a + b;
+}
 
-Agent1 - Requirements Gathering
-- Collects application requirements
-- Asks clarifying questions
-- Creates requirements document
+function multiply(a, b) {
+    return a * b;
+}
+```
 
-Agent2 - Planning
-- Analyzes requirements
-- Creates development plan
-- Sends plan to Telegram
+**Результат:** Система автоматически создаст тесты с помощью Jest и проверит функциональность.
 
-Agent3 - GitHub Analysis
-- Analyzes repositories
-- Shows open issues
-- Generates reports
-- **🆕 Automatically sends reports to Telegram**
-- **🆕 Creates and deploys HTML reports in Docker containers**
+### Тестирование Python кода
 
-**🆕 Testing Framework**
-- **🆕 Automated tests for `docker-report.js` module**
-- **🆕 Jest test runner with comprehensive test coverage**
-- **🆕 Test utilities for mocking Docker MCP API**
-- **🆕 HTML test runner interface for browser-based testing**
+```python
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
 
-🔧 Troubleshooting
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+```
 
-Common Issues
+**Результат:** Система создаст тесты с помощью pytest и проверит корректность алгоритмов.
 
-1. **Services not starting**
-   - Check if ports 3000, 3001, 3002, 3003, 3004, 8080 are available
-   - Ensure Docker is running
-   - Check logs: `./logs-docker.sh`
+## 🔧 Требования
 
-2. **Configuration errors**
-   - Verify all `config.json` files exist
-   - Check token permissions
-   - Ensure correct URLs in configuration
+### Системные требования
+- **Docker** - для изоляции тестов
+- **Node.js** - для запуска серверов
+- **Ollama** - для генерации тестов с помощью ИИ
 
-3. **Network issues**
-   - Verify Docker network: `docker network ls`
-   - Check container connectivity: `docker-compose ps`
+### Зависимости
+- **test-agent-mcp** - MCP сервер для тестирования
+- **docker-mcp** - для развертывания HTML отчетов
+- **http-server** - для запуска веб-приложения
 
-4. **🆕 HTML report deployment issues**
-   - Check Docker MCP logs: `./logs-docker.sh docker`
-   - Verify nginx image availability
-   - Check port availability for report containers
+## 🚨 Устранение неполадок
 
-5. **🆕 Test execution issues**
-   - Ensure Jest is installed: `npm install`
-   - Run tests: `npm test`
-   - Check test coverage: `npm run test:coverage`
-
-Logs
-
+### Docker не доступен
 ```bash
-./logs-docker.sh
+# Проверьте статус Docker
+sudo systemctl status docker
 
-./logs-docker.sh web
-./logs-docker.sh telegram
-./logs-docker.sh github
-./logs-docker.sh docker
-
-docker-compose logs -f
+# Убедитесь что Docker socket доступен
+ls -la /var/run/docker.sock
 ```
 
-🚀 Development
-
-Local Development
-
+### Ollama не отвечает
 ```bash
-docker-compose up -d
+# Проверьте статус Ollama
+curl http://localhost:11434/api/tags
 
-docker-compose logs -f
-
-docker-compose down
-docker-compose up --build -d
+# Запустите Ollama если не запущен
+ollama serve
 ```
 
-File Structure
+### Test Agent MCP не инициализирован
+```bash
+# Проверьте статус сервера
+curl http://localhost:3005/health
 
-```
-11/
-├── web-app/           # Web application
-├── docker-compose.yml # Docker configuration
-├── start-docker.sh    # Start script
-├── stop-docker.sh     # Stop script
-├── logs-docker.sh     # Logs script
-├── package.json       # Node.js dependencies and scripts
-├── jest.setup.js      # Jest configuration
-├── test-utils.js      # Test utilities
-├── docker-report.test.js # Tests for docker-report module
-├── test-runner.html   # HTML test runner interface
-└── test-simple.html   # Simple test interface
+# Перезапустите сервер
+cd test-agent-mcp
+./start.sh
 ```
 
-📄 License
+## 📈 Мониторинг
 
-This project is licensed under the MIT License.
+### Логи сервера
+```bash
+# Просмотр логов MCP сервера
+tail -f test-agent-mcp/logs/mcp-server.log
+
+# Просмотр логов HTTP сервера
+tail -f test-agent-mcp/logs/http-server.log
+```
+
+### Метрики
+- Количество выполненных тестов
+- Время выполнения тестов
+- Успешность тестов
+- Использование ресурсов
+
+## 🎯 Результат
+
+Система обеспечивает:
+
+✅ **Автоматическую генерацию тестов** с помощью ИИ  
+✅ **Изолированное выполнение** в Docker контейнерах  
+✅ **Детальную отчетность** с HTML отчетами  
+✅ **Простой веб-интерфейс** для загрузки и тестирования кода  
+✅ **Поддержку множества языков** программирования  
+✅ **Интеграцию с MCP экосистемой**  
+
+---
+
+**🧪 AI Test Agent** - автоматизируйте тестирование кода с помощью искусственного интеллекта!

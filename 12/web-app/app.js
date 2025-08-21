@@ -220,6 +220,9 @@ function switchTab(tabName) {
     } else if (tabName === 'github') {
         currentActiveAgent = 'Agent3';
         pageTitle.textContent = 'GitHub анализ';
+    } else if (tabName === 'testing') {
+        currentActiveAgent = 'Agent4';
+        pageTitle.textContent = 'Тестирование кода';
     }
 }
 
@@ -243,6 +246,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (window.initGitHubModule) {
             window.initGitHubModule();
+        }
+        if (window.initTestAgentModule) {
+            window.initTestAgentModule();
+        }
+        if (window.initTestAgent) {
+            window.initTestAgent();
         }
     });
 });

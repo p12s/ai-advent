@@ -90,6 +90,14 @@ body {
     overflow: hidden;
 }
 
+#testing-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
 
 
 #github-messages {
@@ -104,6 +112,80 @@ body {
     padding: 20px;
     border-top: 1px solid #eee;
     text-align: center;
+}
+
+#testing-controls {
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.testing-section {
+    margin-bottom: 30px;
+}
+
+.testing-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#code-input {
+    width: 100%;
+    height: 150px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+#language-select,
+#filename-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.test-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin-right: 10px;
+}
+
+.test-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.test-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#file-input {
+    margin-bottom: 15px;
+}
+
+#testing-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    min-height: 0;
 }
 
 .agent3-button {
@@ -267,6 +349,23 @@ body {
 
 .message[data-agent="Agent3"].loading .message-content {
     background-color: #ff9800 !important;
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.message[data-agent="Agent4"] .agent-label {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+}
+
+.message[data-agent="Agent4"] .message-content {
+    background-color: #4caf50 !important;
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.message[data-agent="Agent4"].loading .message-content {
+    background-color: #4caf50 !important;
     color: white;
     border-bottom-left-radius: 4px;
 }

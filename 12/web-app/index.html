@@ -20,6 +20,9 @@
             <button class="tab-button" data-tab="github">
                 🔍 GitHub анализ
             </button>
+            <button class="tab-button" data-tab="testing">
+                🧪 Тестирование кода
+            </button>
         </div>
         
         <div id="tab-content">
@@ -44,11 +47,40 @@
                     </div>
                 </div>
             </div>
+            
+            <div id="testing-tab" class="tab-content">
+                <div id="testing-container">
+                    <div id="testing-messages"></div>
+                    <div id="testing-controls">
+                        <div class="testing-section">
+                            <h3>📝 Тестирование кода</h3>
+                            <textarea id="code-input" placeholder="Введите код для тестирования..."></textarea>
+                            <select id="language-select">
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                                <option value="go">Go</option>
+                                <option value="typescript">TypeScript</option>
+                            </select>
+                            <input type="text" id="filename-input" placeholder="Имя файла (например: math.js)" value="test.js">
+                            <button id="test-code-button" class="test-button">🧪 Протестировать код</button>
+                        </div>
+                        
+                        <div class="testing-section">
+                            <h3>📁 Загрузка файла</h3>
+                            <input type="file" id="file-input" accept=".js,.ts,.py,.java,.go">
+                            <button id="test-file-button" class="test-button">🧪 Протестировать файл</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="docker-report.js"></script>
     <script src="gathering-requirements.js"></script>
     <script src="github-analysis.js"></script>
+    <script src="test-agent.js"></script>
+    <script src="test-agent-module.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

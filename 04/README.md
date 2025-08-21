@@ -50,7 +50,7 @@ ollama serve
 
 3. Make sure the llama3 model is loaded:
 ```bash
-ollama pull llama3:latest
+ollama pull phi4:14b
 ```
 
 4. Start the web server:

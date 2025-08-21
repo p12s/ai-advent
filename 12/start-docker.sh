@@ -37,6 +37,13 @@ else
     echo "❌ Docker MCP unavailable"
 fi
 
+echo "🧪 Checking Test Agent MCP..."
+if curl -s http://localhost:3006/health > /dev/null; then
+    echo "✅ Test Agent MCP available"
+else
+    echo "❌ Test Agent MCP unavailable"
+fi
+
 echo "🌐 Checking web application..."
 if curl -s http://localhost:8080 > /dev/null; then
     echo "✅ Web application available"
@@ -49,6 +56,7 @@ echo "🎉 All services started!"
 echo "📱 Telegram MCP: http://localhost:3000"
 echo "🐙 GitHub MCP: http://localhost:3002"
 echo "🐳 Docker MCP: http://localhost:3004"
+echo "🧪 Test Agent MCP: http://localhost:3006"
 echo "🌐 Web application: http://localhost:8080"
 echo ""
 echo "To view logs use: docker-compose logs -f"

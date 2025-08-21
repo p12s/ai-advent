@@ -319,7 +319,7 @@ function sendMessage() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            model: 'llama3',
+            model: 'phi4:14b',
             system: systemPrompt,
             prompt: question,
             temperature: 0.8,
@@ -364,7 +364,7 @@ function sendMessage() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            model: 'llama3',
+                            model: 'phi4:14b',
                             system: agent2SystemPrompt,
                             prompt: agent2Prompt,
                             temperature: 0.8,

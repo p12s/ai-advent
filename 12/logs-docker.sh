@@ -15,6 +15,9 @@ elif [ "$1" = "github" ]; then
 elif [ "$1" = "docker" ]; then
     echo "🐳 Docker MCP logs:"
     docker-compose logs -f docker-mcp
+elif [ "$1" = "test" ]; then
+    echo "🧪 Test Agent MCP logs:"
+    docker-compose logs -f test-agent-mcp
 else
     echo "📊 All service logs:"
     docker-compose logs -f

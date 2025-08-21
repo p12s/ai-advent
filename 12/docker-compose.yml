@@ -49,6 +49,24 @@ services:
       - mcp-network
     restart: unless-stopped
 
+  test-agent-mcp:
+    build:
+      context: ../test-agent-mcp
+      dockerfile: Dockerfile
+    container_name: test-agent-mcp
+    ports:
+      - "3005:3005"
+      - "3006:3006"
+    environment:
+      - NODE_ENV=production
+      - TEST_AGENT_MCP_URL=http://localhost:3005
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../test-agent-mcp/config.json:/app/config.json:ro
+    networks:
+      - mcp-network
+    restart: unless-stopped
+
   web-app:
     build:
       context: .
@@ -64,6 +82,7 @@ services:
       - github-mcp
       - telegram-mcp
       - docker-mcp
+      - test-agent-mcp
     networks:
       - mcp-network
     restart: unless-stopped

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Test Agent - Автоматическое тестирование кода</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1a202c;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tabs {
+            display: flex;
+            background: #f7fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .tab:hover:not(.active) {
+            background: #edf2f7;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 300px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .file-upload {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-upload.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .result-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .status-running {
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+            position: relative;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-small:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.3);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.5);
+        }
+
+        .btn-run {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-run:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-run:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .test-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .test-stat {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .test-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .test-stat-label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .stat-success .test-stat-number { color: #38a169; }
+        .stat-error .test-stat-number { color: #e53e3e; }
+        .stat-total .test-stat-number { color: #667eea; }
+
+        .test-output {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .test-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 161, 105, 0.4);
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .language-tag {
+            background: #edf2f7;
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .success-message {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #38a169;
+        }
+
+        /* Стили для форматированного вывода тестов */
+        .test-output-container {
+            margin-top: 15px;
+        }
+
+        .test-output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .test-output-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .test-output {
+            background: #1a202c;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .test-output.collapsed {
+            max-height: 0;
+            padding: 0 15px;
+            overflow: hidden;
+        }
+
+        .test-line {
+            margin: 8px 0;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .test-pass {
+            background: rgba(56, 161, 105, 0.1);
+            color: #38a169;
+            border-left: 3px solid #38a169;
+        }
+
+        .test-fail {
+            background: rgba(229, 62, 62, 0.1);
+            color: #e53e3e;
+            border-left: 3px solid #e53e3e;
+        }
+
+        .test-describe {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-left: 3px solid #667eea;
+            font-weight: 600;
+        }
+
+        .test-detail {
+            background: rgba(237, 137, 54, 0.1);
+            color: #ed8936;
+            border-left: 3px solid #ed8936;
+            font-style: italic;
+        }
+
+        .test-number {
+            background: rgba(128, 90, 213, 0.1);
+            color: #805ad5;
+            border-left: 3px solid #805ad5;
+        }
+
+        .test-info {
+            background: rgba(113, 128, 150, 0.1);
+            color: #718096;
+            border-left: 3px solid #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Test Agent</h1>
+            <p>Автоматическое тестирование кода с помощью ИИ</p>
+        </div>
+
+        <div class="main-card">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('code')">💻 Код</button>
+                <button class="tab" onclick="switchTab('file')">📁 Файл</button>
+            </div>
+
+            <!-- Вкладка ввода кода -->
+            <div id="code-tab" class="tab-content active">
+                <form id="code-form">
+
+                    <div class="form-group">
+                        <label class="form-label" for="filename">Имя файла (опционально):</label>
+                        <input type="text" id="filename" class="form-input" placeholder="example.js">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="code">Код для тестирования:</label>
+                        <textarea id="code" class="form-textarea" placeholder="Вставьте ваш код здесь... (язык определится автоматически)" required></textarea>
+                        <div id="detected-language" style="margin-top: 8px; font-size: 0.9rem; color: #667eea; font-weight: 600;"></div>
+                    </div>
+
+                    <button type="submit" class="btn">🚀 Создать тесты</button>
+                </form>
+            </div>
+
+            <!-- Вкладка загрузки файла -->
+            <div id="file-tab" class="tab-content">
+                <form id="file-form">
+                    <div class="form-group">
+                        <label class="form-label">Загрузка файла:</label>
+                        <div class="file-upload" id="file-upload">
+                            <div style="font-size: 3rem; margin-bottom: 15px;">📁</div>
+                            <p style="font-size: 1.2rem; margin-bottom: 10px;">Перетащите файл сюда или нажмите для выбора</p>
+                            <p style="color: #718096;">Поддерживаются: .js, .py, .java, .go, .rb, .php, .cs, .rs</p>
+                            <input type="file" id="file-input" style="display: none;" accept=".js,.py,.java,.go,.rb,.php,.cs,.rs,.ts,.jsx,.tsx">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" disabled>🚀 Создать тесты</button>
+                </form>
+            </div>
+
+
+            <!-- Индикатор загрузки -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <h3>Генерация тестов...</h3>
+                <p>Анализируем код и создаем тесты с помощью ИИ</p>
+            </div>
+
+            <!-- Результаты -->
+            <div id="results" class="results">
+                <div id="results-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
