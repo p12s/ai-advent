@@ -2,9 +2,11 @@ const Generator = require('./generator');
 
 async function testGenerator() {
     const config = {
-        ollama: {
-            url: "http://localhost:11434",
-            model: "codestral:22b"
+        gigachat: {
+            credentials: "N2FjYTczM2MtODgyYy00NWE4LWI2NjItYTQ4NTgzMTQ0ZDFkOjUzMjc5OTM4LTRmMDYtNGJiZC05MjI4LWZhZTIxZmM1ODk1Mg==",
+            scope: "GIGACHAT_API_PERS",
+            model: "GigaChat",
+            verify_ssl_certs: false
         }
     };
     

@@ -41,7 +41,7 @@ try {
     }
     
     config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-    console.log(`📝 Loaded config with model: ${config.ollama?.model || 'unknown'}`);
+    console.log(`📝 Loaded config with model: ${config.gigachat?.model || 'unknown'}`);
     
     generator = new Generator(config);
     runner = new Runner(config);

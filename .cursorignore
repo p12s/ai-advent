@@ -1,1 +1,6 @@
 ai.jpeg
+**/node_modules/
+**/uploads/
+**/web-results/
+**/test-runs/
+**/test-artifacts/

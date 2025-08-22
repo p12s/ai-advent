@@ -1,7 +1,9 @@
 {
-  "ollama": {
-    "url": "http://localhost:11434",
-    "model": "codestral:22b"
+  "gigachat": {
+    "credentials": "YOUR_GIGACHAT_CREDENTIALS_HERE",
+    "scope": "GIGACHAT_API_PERS",
+    "model": "GigaChat",
+    "verify_ssl_certs": false
   },
   "docker": {
     "url": "http://docker-mcp:3004",

@@ -1,7 +1,5 @@
 ---
-description: Автоматическое создание скриншотов UI при изменениях в HTML, JS и CSS файлах
-globs: ["**/*.html", "**/*.js", "**/*.css"]
-alwaysApply: true
+alwaysApply: false
 ---
 When code is changed in HTML, JS or CSS files
 Then
