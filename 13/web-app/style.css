@@ -539,3 +539,27 @@ body {
 .modal-close-button:hover {
     background-color: #5a6268;
 }
+
+.auto-test-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.auto-test-controls .test-button {
+    flex: 1;
+}
+
+.auto-test-info {
+    padding: 10px;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.auto-test-info small {
+    color: #4a5568;
+    font-style: italic;
+}

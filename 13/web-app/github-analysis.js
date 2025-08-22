@@ -1,6 +1,5 @@
 /**
  * GitHub Analysis Module
- * Module for analyzing GitHub repositories and creating reports
  * 
  * @author AI Assistant
  * @version 1.0.0

@@ -253,6 +253,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.initTestAgent) {
             window.initTestAgent();
         }
+        
+        // Инициализация Auto Test Sender
+        if (window.initAutoTestSender) {
+            window.initAutoTestSender().then(success => {
+                if (success) {
+                    console.log('✅ Auto Test Sender initialized successfully');
+                    setupAutoTestControls();
+                } else {
+                    console.warn('⚠️ Auto Test Sender initialization failed');
+                }
+            });
+        }
     });
 });
 
@@ -261,3 +273,66 @@ window.sendPlanToTelegram = sendPlanToTelegram;
 window.sendGitHubReportToTelegram = sendGitHubReportToTelegram;
 window.addMessage = addMessage;
 window.showFullPlanModal = showFullPlanModal;
+
+/**
+ * Настройка элементов управления автоматическим тестированием
+ */
+function setupAutoTestControls() {
+    const autoTestExampleButton = document.getElementById('auto-test-example');
+    const testGitHubAnalysisButton = document.getElementById('test-github-analysis');
+    const clearHistoryButton = document.getElementById('clear-test-history');
+    
+    if (autoTestExampleButton) {
+        autoTestExampleButton.addEventListener('click', async function() {
+            this.disabled = true;
+            this.textContent = '⏳ Тестирование...';
+            
+            try {
+                if (window.demoAutoTestSystem) {
+                    await window.demoAutoTestSystem();
+                } else if (window.exampleAutoSendJavaScriptFile) {
+                    await window.exampleAutoSendJavaScriptFile();
+                    window.addMessage('✅ Пример JavaScript файла протестирован!', false, false, 'System', 'testing');
+                } else {
+                    throw new Error('Функции демонстрации не найдены');
+                }
+            } catch (error) {
+                console.error('❌ Error testing example JavaScript file:', error);
+                window.addMessage(`❌ Ошибка тестирования примера: ${error.message}`, false, false, 'System', 'testing');
+            } finally {
+                this.disabled = false;
+                this.textContent = '🚀 Тест примера JavaScript';
+            }
+        });
+    }
+    
+    if (testGitHubAnalysisButton) {
+        testGitHubAnalysisButton.addEventListener('click', async function() {
+            this.disabled = true;
+            this.textContent = '⏳ Тестирование...';
+            
+            try {
+                if (window.testGitHubAnalysis) {
+                    await window.testGitHubAnalysis();
+                } else {
+                    throw new Error('Функция тестирования github-analysis.js не найдена');
+                }
+            } catch (error) {
+                console.error('❌ Error testing github-analysis.js:', error);
+                window.addMessage(`❌ Ошибка тестирования github-analysis.js: ${error.message}`, false, false, 'System', 'testing');
+            } finally {
+                this.disabled = false;
+                this.textContent = '🔍 Тест github-analysis.js';
+            }
+        });
+    }
+    
+    if (clearHistoryButton) {
+        clearHistoryButton.addEventListener('click', function() {
+            if (window.autoTestSender) {
+                window.autoTestSender.clearHistory();
+                window.addMessage('🗑️ История автоматического тестирования очищена', false, false, 'System', 'testing');
+            }
+        });
+    }
+}
