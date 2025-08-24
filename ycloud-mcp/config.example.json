@@ -1,0 +1,11 @@
+{
+  "ssh": {
+    "host": "your-vm-public-ip-here",
+    "port": 22,
+    "username": "your-ssh-username",
+    "privateKeyPath": "path/to/your/private/key"
+  },
+  "deployment": {
+    "htmlDirectory": "/var/www/html"
+  }
+}

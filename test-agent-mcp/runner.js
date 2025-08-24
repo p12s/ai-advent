@@ -8,7 +8,7 @@ class Runner {
         this.config = config;
         this.containerManager = new ContainerManager(config);
         this.environmentBuilder = new EnvBuilder();
-        this.resultsDeployer = new Deploy();
+        this.resultsDeployer = new Deploy(config);
     }
 
     async runTests(testData) {

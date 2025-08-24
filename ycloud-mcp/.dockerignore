@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+test-*.js
+*.test.js
+test-page.html
+temp

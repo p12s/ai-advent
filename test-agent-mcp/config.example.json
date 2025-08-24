@@ -6,14 +6,17 @@
     "verify_ssl_certs": false
   },
   "docker": {
-    "url": "http://docker-mcp:3004",
+    "url": "http://localhost:3004",
     "socketPath": "/var/run/docker.sock"
   },
+  "ycloud": {
+    "url": "http://localhost:3004"
+  },
   "telegram": {
-    "url": "http://telegram-mcp:3000"
+    "url": "http://localhost:3000"
   },
   "github": {
-    "url": "http://github-mcp:3002"
+    "url": "http://localhost:3002"
   },
   "testSettings": {
     "timeout": 300,
@@ -29,5 +32,6 @@
   "server": {
     "port": 3005,
     "httpPort": 3006
-  }
+  },
+  "host": "http://ip"
 }

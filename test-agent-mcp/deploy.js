@@ -1,17 +1,35 @@
 const fs = require('fs-extra');
 const path = require('path');
+const YCloudDeploy = require('./ycloud-deploy');
 
 class Deploy {
-    constructor() {
+    constructor(config) {
+        this.config = config;
         this.testResults = new Map();
+        this.ycloudDeploy = new YCloudDeploy(config);
     }
 
     async deployTestResults(testId, result, testData) {
+        console.log(`🔧 ENTERING deployTestResults method`);
+        console.log(`🔧 testId: ${testId}`);
+        console.log(`🔧 result:`, result ? 'exists' : 'null');
+        console.log(`🔧 testData:`, testData ? 'exists' : 'null');
+        
         try {
             console.log(`🌐 Deploying test results for ${testId}`);
+            console.log(`🔧 Method started, testId: ${testId}`);
+            console.log(`🔧 Result object:`, result ? 'exists' : 'null');
+            console.log(`🔧 TestData object:`, testData ? 'exists' : 'null');
+            
+            // Создаем ЕДИНОЕ название файла для всей цепочки развертывания 
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+            const filename = `test-report-${timestamp}.html`;
+            console.log(`📁 Generated SINGLE filename: ${filename} (будет использоваться везде)`);
+            
+            // Сохраняем локально для резервной копии
             const webDir = path.join(__dirname, 'web-results', testId);
             await fs.ensureDir(webDir);
-            console.log(`📁 Created web directory: ${webDir}`);
+            console.log(`📁 Created local backup directory: ${webDir}`);
 
             const htmlContent = await this.generateResultsHTML(testId, result, testData);
             await fs.writeFile(path.join(webDir, 'index.html'), htmlContent);
@@ -26,16 +44,45 @@ class Deploy {
                 console.log(`📁 Copied ${Object.keys(result.resultFiles).length} result files`);
             }
 
-            const port = await this.findAvailablePort(8080);
-            console.log(`🔍 Found available port: ${port}`);
-            const webUrl = await this.startResultsServer(webDir, port, testId);
-            console.log(`✅ Deployed test results at: ${webUrl}`);
-
-            return webUrl;
+            // Деплоим на Yandex Cloud
+            console.log(`🚀 Deploying to Yandex Cloud...`);
+            console.log(`🔧 YCloudDeploy instance:`, this.ycloudDeploy ? 'exists' : 'null');
+            console.log(`🔧 Config:`, this.config ? 'exists' : 'null');
+            console.log(`🔧 Передаем в YCloud имя файла: ${filename}`);
+            const ycloudResult = await this.ycloudDeploy.deployTestResults(htmlContent, testId, filename);
+            
+            if (ycloudResult.success) {
+                console.log(`✅ Successfully deployed to Yandex Cloud: ${ycloudResult.url}`);
+                return ycloudResult.url;
+            } else {
+                console.warn(`⚠️ Yandex Cloud deployment failed: ${ycloudResult.error}`);
+                console.log(`🔄 Falling back to local deployment...`);
+                
+                // Fallback к локальному серверу
+                const port = await this.findAvailablePort(8080);
+                console.log(`🔍 Found available port: ${port}`);
+                await this.startResultsServer(webDir, port, testId);
+                const webUrl = `${this.config.host}/${filename}`;
+                console.log(`✅ Deployed test results locally at: ${webUrl}`);
+                
+                return webUrl;
+            }
 
         } catch (error) {
             console.error('❌ Error deploying test results:', error);
-            return null;
+            
+            // Fallback к локальному серверу
+            try {
+                const webDir = path.join(__dirname, 'web-results', testId);
+                const port = await this.findAvailablePort(8080);
+                await this.startResultsServer(webDir, port, testId);
+                const webUrl = `${this.config.host}/${filename}`;
+                console.log(`✅ Fallback: Deployed test results locally at: ${webUrl}`);
+                return webUrl;
+            } catch (fallbackError) {
+                console.error('❌ Fallback deployment also failed:', fallbackError);
+                return null;
+            }
         }
     }
 
@@ -215,7 +262,8 @@ class Deploy {
             this.testResults.set(testId, { server, port, webDir });
             console.log(`📝 Saved server info for test ${testId}, total active servers: ${this.testResults.size}`);
 
-            return `http://localhost:${port}`;
+            const hostUrl = this.config.host || 'http://localhost';
+            return `${hostUrl}:${port}`;
         } catch (error) {
             console.error(`❌ Failed to start results server for test ${testId}:`, error);
             throw error;

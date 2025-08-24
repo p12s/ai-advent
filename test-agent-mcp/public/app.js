@@ -246,15 +246,18 @@ class TestAgent {
         }
 
         if (result && result.webUrl) {
+            // Используем URL напрямую из ответа сервера - он уже содержит правильное имя файла
+            const fullUrl = result.webUrl;
+            
             html += `
                 <div class="result-card">
                     <div class="result-header">
                         <div class="result-title">🌐 Веб-интерфейс тестов</div>
-                        <div class="result-status status-success">Доступен</div>
+                        <div class="result-status status-success">Развернуто</div>
                     </div>
-                    <p>Тесты развернуты и доступны по ссылке:</p>
-                    <a href="${result.webUrl}" target="_blank" class="test-link">
-                        🚀 Открыть тесты в браузере
+                    <p>Тесты развернуты и доступны по ссылке: ${fullUrl}</p>
+                    <a href="${fullUrl}" target="_blank" class="test-link">
+                        🚀🚀 Открыть
                     </a>
                 </div>
             `;

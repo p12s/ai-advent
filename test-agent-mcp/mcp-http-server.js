@@ -8,7 +8,7 @@ const Generator = require('./generator');
 const Runner = require('./runner');
 
 const app = express();
-const PORT = process.env.PORT || 3007;
+const PORT = process.env.PORT || 3008;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
