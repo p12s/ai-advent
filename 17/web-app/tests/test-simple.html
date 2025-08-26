@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой тест docker-report.js</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .pass {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .fail {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Простой тест docker-report.js</h1>
+    <button onclick="runSimpleTest()">Запустить тест</button>
+    <div id="results"></div>
+
+    <script src="docker-report.js"></script>
+    <script>
+        function addResult(type, message) {
+            const resultsDiv = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            resultsDiv.appendChild(div);
+        }
+
+        function runSimpleTest() {
+            document.getElementById('results').innerHTML = '';
+            
+            addResult('info', '🔍 Проверяем доступность функций...');
+            
+            if (typeof parseGitHubDataFromReport === 'undefined') {
+                addResult('fail', '❌ parseGitHubDataFromReport не найдена');
+                return;
+            } else {
+                addResult('pass', '✅ parseGitHubDataFromReport найдена');
+            }
+            
+            if (typeof createHtmlReport === 'undefined') {
+                addResult('fail', '❌ createHtmlReport не найдена');
+                return;
+            } else {
+                addResult('pass', '✅ createHtmlReport найдена');
+            }
+            
+            if (typeof DockerReportManager === 'undefined') {
+                addResult('fail', '❌ DockerReportManager не найден');
+                return;
+            } else {
+                addResult('pass', '✅ DockerReportManager найден');
+            }
+            
+            addResult('info', '🧪 Запускаем тесты функций...');
+            
+            try {
+                const testContent = `
+Пользователь: testuser
+Всего репозиториев: 2
+Неразрешенных задач: 5
+
+### testuser/repo1
+- **Описание**: Test repository
+- **Открытых задач**: 3
+                `;
+                
+                const result = parseGitHubDataFromReport(testContent);
+                
+                if (result.user === 'testuser' && result.totalRepositories === 2) {
+                    addResult('pass', '✅ parseGitHubDataFromReport работает корректно');
+                } else {
+                    addResult('fail', `❌ parseGitHubDataFromReport вернул неожиданный результат: ${JSON.stringify(result)}`);
+                }
+            } catch (error) {
+                addResult('fail', `❌ Ошибка в parseGitHubDataFromReport: ${error.message}`);
+            }
+            
+            try {
+                const testData = {
+                    user: 'testuser',
+                    totalRepositories: 1,
+                    totalIssues: 0,
+                    repositories: []
+                };
+                
+                const htmlResult = createHtmlReport(testData);
+                
+                if (htmlResult && htmlResult.includes('testuser')) {
+                    addResult('pass', '✅ createHtmlReport работает корректно');
+                } else {
+                    addResult('fail', '❌ createHtmlReport вернул неожиданный результат');
+                }
+            } catch (error) {
+                addResult('fail', `❌ Ошибка в createHtmlReport: ${error.message}`);
+            }
+            
+            try {
+                const dockerManager = new DockerReportManager();
+                const config = dockerManager.createContainerConfig();
+                
+                if (config && config.containerName && config.port) {
+                    addResult('pass', '✅ DockerReportManager работает корректно');
+                } else {
+                    addResult('fail', '❌ DockerReportManager вернул неожиданный результат');
+                }
+            } catch (error) {
+                addResult('fail', `❌ Ошибка в DockerReportManager: ${error.message}`);
+            }
+            
+            addResult('info', '🎉 Тестирование завершено!');
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(runSimpleTest, 500);
+        });
+    </script>
+</body>
+</html>

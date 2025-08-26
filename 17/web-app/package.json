@@ -1,0 +1,31 @@
+{
+  "name": "docker-report-tests",
+  "version": "1.0.0",
+  "description": "Tests for docker-report.js module",
+  "main": "docker-report.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"],
+    "collectCoverageFrom": [
+      "docker-report.js",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": ["text", "lcov", "html"],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)+(spec|test).js"
+    ]
+  },
+  "keywords": ["docker", "report", "testing", "jest"],
+  "author": "AI Assistant",
+  "license": "MIT"
+}
