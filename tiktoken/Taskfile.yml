@@ -1,0 +1,27 @@
+# https://taskfile.dev/installation/
+
+version: '3'
+
+silent: true
+
+vars:
+  GO_MODULE: github.com/p12s/ai-advent
+
+tasks:
+  default:
+    cmds:
+      - task: tidy
+
+  tidy:
+    - echo "- Tidy"
+    - GO111MODULE=on go mod tidy
+
+  build:
+    desc: Build docker image
+    cmds:
+      - docker build -t p12s/tiktoken:latest .
+
+  run:
+    desc: Run docker image
+    cmds:
+      - docker run -d -p 4000:4000 --name tiktoken p12s/tiktoken

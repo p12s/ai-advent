@@ -1,0 +1,137 @@
+definitions:
+  internal.HealthResponse:
+    description: Service health response
+    properties:
+      service:
+        description: |-
+          @Description Service name
+          @example "tiktoken-server"
+        example: tiktoken-server
+        type: string
+      status:
+        description: |-
+          @Description Service status
+          @example "ok"
+        example: ok
+        type: string
+      version:
+        description: |-
+          @Description Service version
+          @example "1.0.0"
+        example: 1.0.0
+        type: string
+    type: object
+  internal.TokenData:
+    description: Detailed token counting information
+    properties:
+      file_name:
+        description: |-
+          @Description File name (if file was uploaded)
+          @example "document.txt"
+        example: document.txt
+        type: string
+      model:
+        description: |-
+          @Description Used model
+          @example "gpt-4"
+        example: gpt-4
+        type: string
+      text_length:
+        description: |-
+          @Description Text length in characters
+          @example 28
+        example: 28
+        type: integer
+      token_count:
+        description: |-
+          @Description Number of tokens in text
+          @example 7
+        example: 7
+        type: integer
+    type: object
+  internal.TokenRequest:
+    description: Token counting request
+    properties:
+      model:
+        description: |-
+          @Description OpenAI model for token counting
+          @example "gpt-4"
+        example: gpt-4
+        type: string
+      text:
+        description: |-
+          @Description Text for token counting
+          @example "Hello, world! This is a test message."
+        example: Hello, world! This is a test message.
+        type: string
+    type: object
+  internal.TokenResponse:
+    description: Token counting response
+    properties:
+      data:
+        allOf:
+        - $ref: '#/definitions/internal.TokenData'
+        description: '@Description Response data'
+      success:
+        description: |-
+          @Description Request success status
+          @example true
+        example: true
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /count-tokens:
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      description: Counts the number of tokens in text for the specified OpenAI model
+      parameters:
+      - description: Token counting request (for JSON)
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal.TokenRequest'
+      - description: File with text for analysis
+        in: formData
+        name: file
+        type: file
+      - description: 'OpenAI model (default: gpt-4)'
+        in: formData
+        name: model
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Count tokens in text
+      tags:
+      - tokens
+  /health:
+    get:
+      description: Returns service status information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.HealthResponse'
+      summary: Service health check
+      tags:
+      - health
+swagger: "2.0"
