@@ -61,18 +61,6 @@ class Generator {
 
     async generateTestForEntireCode(originalCode) {
         try {
-            // Мок-генератор для тестирования без GigaChat API
-            const mockTestCode = this.generateMockTests(originalCode);
-            
-            if (mockTestCode) {
-                return {
-                    functionName: 'entire_code',
-                    className: null,
-                    testCode: mockTestCode,
-                    language: 'javascript',
-                    framework: this.testFramework
-                };
-            }
             
             const systemPrompt = this.getSystemPrompt();
             
@@ -229,7 +217,7 @@ describe('source code', () => {
             
             const response = await this.giga.chat({
                 messages: messages,
-                temperature: 0.3,
+                temperature: 0.1,
                 max_tokens: 2000
             });
 
