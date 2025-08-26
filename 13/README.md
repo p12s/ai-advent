@@ -1,16 +1,16 @@
-# AI Test Agent - Автоматическое тестирование кода с ИИ
+# AI Test Agent - Automated Code Testing with AI
 
-🧪 **AI Test Agent** - интеллектуальная система для автоматической генерации и выполнения тестов кода с помощью искусственного интеллекта.
+🧪 **AI Test Agent** - an intelligent system for automated generation and execution of code tests using artificial intelligence.
 
-## 🚀 Возможности
+## 🚀 Features
 
-- **🤖 AI-генерация тестов** - автоматическое создание unit тестов с помощью Ollama
-- **🐳 Docker-изоляция** - выполнение тестов в изолированных контейнерах
-- **📊 Детальная отчетность** - красивые HTML отчеты с результатами тестирования
-- **🔗 MCP интеграция** - полная интеграция с существующими MCP сервисами
-- **🌐 Веб-интерфейс** - удобный интерфейс для загрузки и тестирования кода
+- **🤖 AI Test Generation** - automatic creation of unit tests using Ollama
+- **🐳 Docker Isolation** - test execution in isolated containers
+- **📊 Detailed Reporting** - beautiful HTML reports with test results
+- **🔗 MCP Integration** - full integration with existing MCP services
+- **🌐 Web Interface** - convenient interface for uploading and testing code
 
-## 📋 Поддерживаемые языки
+## 📋 Supported Languages
 
 - **JavaScript/TypeScript** - Jest
 - **Python** - pytest
@@ -21,95 +21,95 @@
 - **C#** - NUnit
 - **Rust** - cargo test
 
-## 🏗️ Архитектура
+## 🏗️ Architecture
 
 ```
 12/
-├── web-app/                    # Веб-приложение
-│   ├── app.js                 # Основной файл приложения
-│   ├── test-agent.js          # Модуль для работы с test-agent-mcp
-│   ├── test-agent-module.js   # UI модуль для тестирования
-│   ├── example-test.js        # Пример файла для тестирования
-│   └── index.html             # Главная страница
-├── test-agent-mcp/            # MCP сервер для тестирования
-│   ├── mcp-test-server.js     # Основной MCP сервер
-│   ├── mcp-http-server.js     # HTTP API сервер
-│   └── config.json           # Конфигурация
-└── README.md                 # Документация
+├── web-app/                    # Web application
+│   ├── app.js                 # Main application file
+│   ├── test-agent.js          # Module for working with test-agent-mcp
+│   ├── test-agent-module.js   # UI module for testing
+│   ├── example-test.js        # Example file for testing
+│   └── index.html             # Main page
+├── test-agent-mcp/            # MCP server for testing
+│   ├── mcp-test-server.js     # Main MCP server
+│   ├── mcp-http-server.js     # HTTP API server
+│   └── config.json           # Configuration
+└── README.md                 # Documentation
 ```
 
-## 🚀 Быстрый старт
+## 🚀 Quick Start
 
-### 1. Запуск test-agent-mcp сервера
+### 1. Start test-agent-mcp server
 
 ```bash
-# Перейдите в директорию test-agent-mcp
+# Navigate to test-agent-mcp directory
 cd test-agent-mcp
 
-# Установите зависимости
+# Install dependencies
 npm install
 
-# Настройте конфигурацию
+# Configure settings
 cp config.example.json config.json
 
-# Запустите сервер
+# Start server
 ./start.sh
 ```
 
-### 2. Запуск веб-приложения
+### 2. Start web application
 
 ```bash
-# Вернитесь в корневую директорию
+# Return to root directory
 cd ..
 
-# Запустите HTTP сервер
+# Start HTTP server
 npx http-server -p 8080 --cors
 ```
 
-### 3. Откройте приложение
+### 3. Open application
 
-Перейдите по адресу: `http://localhost:8080`
+Navigate to: `http://localhost:8080`
 
-## 🧪 Использование
+## 🧪 Usage
 
-### Автоматическое тестирование
+### Automated Testing
 
-1. **Откройте приложение** в браузере
-2. **Нажмите кнопку "🧪 Test Code"** в панели управления
-3. **Выберите способ тестирования:**
+1. **Open the application** in your browser
+2. **Click the "🧪 Test Code" button** in the control panel
+3. **Choose testing method:**
 
-#### 📁 Загрузка файла
-- Нажмите "📁 Выбрать файл для тестирования"
-- Выберите файл с кодом (поддерживаются .js, .ts, .py, .java, .go, .rb, .php, .cs, .rs)
-- Система автоматически определит язык программирования
+#### 📁 File Upload
+- Click "📁 Select file for testing"
+- Choose a code file (supports .js, .ts, .py, .java, .go, .rb, .php, .cs, .rs)
+- System will automatically detect the programming language
 
-#### 📝 Ввод кода вручную
-- Выберите язык программирования
-- Введите имя файла
-- Вставьте код в текстовое поле
+#### 📝 Manual Code Input
+- Select programming language
+- Enter file name
+- Paste code in the text field
 
-4. **Нажмите "🚀 Запустить тесты"**
+4. **Click "🚀 Run Tests"**
 
-### Процесс тестирования
+### Testing Process
 
-1. **📄 Анализ кода** - определение языка программирования
-2. **🤖 Генерация тестов** - создание тестов с помощью ИИ (Ollama)
-3. **🐳 Создание контейнера** - подготовка среды для тестирования
-4. **🚀 Запуск тестов** - выполнение тестов в изолированной среде
-5. **📊 Анализ результатов** - парсинг и анализ результатов
-6. **📄 Создание отчета** - генерация HTML отчета
-7. **🌐 Развертывание** - публикация отчета в Docker контейнере
+1. **📄 Code Analysis** - programming language detection
+2. **🤖 Test Generation** - test creation using AI (Ollama)
+3. **🐳 Container Creation** - test environment preparation
+4. **🚀 Test Execution** - test execution in isolated environment
+5. **📊 Result Analysis** - parsing and analyzing results
+6. **📄 Report Generation** - HTML report creation
+7. **🌐 Deployment** - report publication in Docker container
 
-### Результаты тестирования
+### Test Results
 
-После завершения тестирования вы получите:
+After testing completion, you will receive:
 
-- **📊 Статистику тестов** - общее количество, пройденные, проваленные
-- **📈 Процент успешности** - соотношение пройденных к общему количеству тестов
-- **📄 HTML отчет** - детальный отчет с исходным кодом, сгенерированными тестами и результатами
-- **🔗 Ссылку на отчет** - автоматически открывается в новой вкладке
+- **📊 Test Statistics** - total count, passed, failed
+- **📈 Success Rate** - ratio of passed to total tests
+- **📄 HTML Report** - detailed report with source code, generated tests and results
+- **🔗 Report Link** - automatically opens in new tab
 
-## ⚙️ Конфигурация
+## ⚙️ Configuration
 
 ### config.json (test-agent-mcp)
 
@@ -141,9 +141,9 @@ npx http-server -p 8080 --cors
 }
 ```
 
-## 📊 Примеры использования
+## 📊 Usage Examples
 
-### Тестирование JavaScript кода
+### Testing JavaScript Code
 
 ```javascript
 function add(a, b) {
@@ -155,9 +155,9 @@ function multiply(a, b) {
 }
 ```
 
-**Результат:** Система автоматически создаст тесты с помощью Jest и проверит функциональность.
+**Result:** System will automatically create tests using Jest and verify functionality.
 
-### Тестирование Python кода
+### Testing Python Code
 
 ```python
 def factorial(n):
@@ -171,78 +171,78 @@ def fibonacci(n):
     return fibonacci(n - 1) + fibonacci(n - 2)
 ```
 
-**Результат:** Система создаст тесты с помощью pytest и проверит корректность алгоритмов.
+**Result:** System will create tests using pytest and verify algorithm correctness.
 
-## 🔧 Требования
+## 🔧 Requirements
 
-### Системные требования
-- **Docker** - для изоляции тестов
-- **Node.js** - для запуска серверов
-- **Ollama** - для генерации тестов с помощью ИИ
+### System Requirements
+- **Docker** - for test isolation
+- **Node.js** - for server execution
+- **Ollama** - for AI-powered test generation
 
-### Зависимости
-- **test-agent-mcp** - MCP сервер для тестирования
-- **docker-mcp** - для развертывания HTML отчетов
-- **http-server** - для запуска веб-приложения
+### Dependencies
+- **test-agent-mcp** - MCP server for testing
+- **docker-mcp** - for HTML report deployment
+- **http-server** - for web application execution
 
-## 🚨 Устранение неполадок
+## 🚨 Troubleshooting
 
-### Docker не доступен
+### Docker Not Available
 ```bash
-# Проверьте статус Docker
+# Check Docker status
 sudo systemctl status docker
 
-# Убедитесь что Docker socket доступен
+# Ensure Docker socket is accessible
 ls -la /var/run/docker.sock
 ```
 
-### Ollama не отвечает
+### Ollama Not Responding
 ```bash
-# Проверьте статус Ollama
+# Check Ollama status
 curl http://localhost:11434/api/tags
 
-# Запустите Ollama если не запущен
+# Start Ollama if not running
 ollama serve
 ```
 
-### Test Agent MCP не инициализирован
+### Test Agent MCP Not Initialized
 ```bash
-# Проверьте статус сервера
+# Check server status
 curl http://localhost:3005/health
 
-# Перезапустите сервер
+# Restart server
 cd test-agent-mcp
 ./start.sh
 ```
 
-## 📈 Мониторинг
+## 📈 Monitoring
 
-### Логи сервера
+### Server Logs
 ```bash
-# Просмотр логов MCP сервера
+# View MCP server logs
 tail -f test-agent-mcp/logs/mcp-server.log
 
-# Просмотр логов HTTP сервера
+# View HTTP server logs
 tail -f test-agent-mcp/logs/http-server.log
 ```
 
-### Метрики
-- Количество выполненных тестов
-- Время выполнения тестов
-- Успешность тестов
-- Использование ресурсов
+### Metrics
+- Number of executed tests
+- Test execution time
+- Test success rate
+- Resource usage
 
-## 🎯 Результат
+## 🎯 Result
 
-Система обеспечивает:
+The system provides:
 
-✅ **Автоматическую генерацию тестов** с помощью ИИ  
-✅ **Изолированное выполнение** в Docker контейнерах  
-✅ **Детальную отчетность** с HTML отчетами  
-✅ **Простой веб-интерфейс** для загрузки и тестирования кода  
-✅ **Поддержку множества языков** программирования  
-✅ **Интеграцию с MCP экосистемой**  
+✅ **Automated test generation** using AI  
+✅ **Isolated execution** in Docker containers  
+✅ **Detailed reporting** with HTML reports  
+✅ **Simple web interface** for code upload and testing  
+✅ **Support for multiple programming languages**  
+✅ **Integration with MCP ecosystem**  
 
 ---
 
-**🧪 AI Test Agent** - автоматизируйте тестирование кода с помощью искусственного интеллекта!
+**🧪 AI Test Agent** - automate code testing with artificial intelligence!
