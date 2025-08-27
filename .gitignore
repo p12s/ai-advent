@@ -43,3 +43,4 @@ ehthumbs.db
 Thumbs.db
 
 test-agent-mcp/web-results/
+**/result/

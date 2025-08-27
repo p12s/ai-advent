@@ -1,8 +1,10 @@
 # Compression + Start
 
-- Take your source code and try to feed it into the AI ​​so that it can solve the problem.
+- Take your source code, try to throw it into the AI ​​so that it solves the problem
 
-Result: The sources are uploaded, the problem is solved (for example, a bug is fixed)
-Format: Code + Video
+Result: Source code thrown, problem solved (for example, bug fixed)
+Format: Video
 
 ## Video
+https://disk.yandex.com/i/TPeNCId0ZyNv_w
+
