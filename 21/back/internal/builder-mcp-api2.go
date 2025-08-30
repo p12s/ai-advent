@@ -7,42 +7,27 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"regexp"
 	"strconv"
-	"time"
+	"strings"
 )
 
-func NewWebsiteBuilderClient() *WebsiteBuilderClient {
-	baseURL := os.Getenv("BUILDER_LLM_URL")
-	if baseURL == "" {
-		panic("BUILDER_LLM_URL is not set")
+// extractHTMLFromResponse извлекает HTML код из тегов ```html
+func extractHTMLFromResponse(response string) string {
+	// Регулярное выражение для поиска содержимого между ```html и ```
+	re := regexp.MustCompile(`(?s)` + "`" + `{3}html\s*\n?(.*?)\n?` + "`" + `{3}`)
+	matches := re.FindStringSubmatch(response)
+
+	if len(matches) > 1 {
+		// Возвращаем содержимое без обрамляющих тегов
+		return strings.TrimSpace(matches[1])
 	}
 
-	model := os.Getenv("BUILDER_LLM_MODEL")
-	if model == "" {
-		panic("BUILDER_LLM_MODEL is not set")
-	}
-
-	timeoutStr := os.Getenv("BUILDER_LLM_TIMEOUT")
-	if timeoutStr == "" {
-		panic("BUILDER_LLM_TIMEOUT is not set")
-	}
-	var timeout int
-	if timeoutStr != "" {
-		if t, err := strconv.Atoi(timeoutStr); err == nil && t > 0 {
-			timeout = t
-		}
-	}
-
-	return &WebsiteBuilderClient{
-		BaseURL: baseURL,
-		Model:   model,
-		Client: &http.Client{
-			Timeout: time.Duration(timeout) * time.Second,
-		},
-	}
+	// Если тегов ```html нет, возвращаем как есть
+	return response
 }
 
-func (c *WebsiteBuilderClient) ProcessWebsiteRequest(userInput string, requirements Requirements) (*WebsiteRequest, error) {
+func (c *WebsiteBuilderClient) ProcessWebsiteRequestHF(userInput string, requirements Requirements) (*WebsiteRequest, error) {
 	if userInput == "" {
 		return nil, fmt.Errorf("user input cannot be empty")
 	}
@@ -62,7 +47,7 @@ func (c *WebsiteBuilderClient) ProcessWebsiteRequest(userInput string, requireme
 	return request, nil
 }
 
-func (c *WebsiteBuilderClient) SendToLLM(websiteReq *WebsiteRequest) (*LLMResponse, error) {
+func (c *WebsiteBuilderClient2) SendToLLM(websiteReq *WebsiteRequest) (*LLMResponse, error) {
 	temperatureStr := os.Getenv("BUILDER_LLM_TEMPERATURE")
 	if temperatureStr == "" {
 		panic("BUILDER_LLM_TEMPERATURE is not set")
@@ -139,8 +124,8 @@ func (c *WebsiteBuilderClient) SendToLLM(websiteReq *WebsiteRequest) (*LLMRespon
 	return &llmResp, nil
 }
 
-func (c *WebsiteBuilderClient) GenerateWebsite(userInput string, requirements Requirements) (string, error) {
-	websiteReq, err := c.ProcessWebsiteRequest(userInput, requirements)
+func (c *WebsiteBuilderClient) GenerateWebsiteV2(userInput string, requirements Requirements) (string, error) {
+	websiteReq, err := c.ProcessWebsiteRequestHF(userInput, requirements)
 	if err != nil {
 		return "", fmt.Errorf("failed to process website request: %w", err)
 	}
@@ -154,5 +139,121 @@ func (c *WebsiteBuilderClient) GenerateWebsite(userInput string, requirements Re
 		return "", fmt.Errorf("received empty response from LLM")
 	}
 
-	return llmResp.Response, nil
+	// Извлекаем HTML из ответа перед отправкой на frontend
+	processedResponse := extractHTMLFromResponse(llmResp.Response)
+	return processedResponse, nil
+}
+
+// SendToHuggingFace отправляет запрос к Hugging Face Chat Completions API
+func (c *WebsiteBuilderClient) SendToHuggingFace(websiteReq *WebsiteRequest) (*LLMResponse, error) {
+	// Hugging Face API токен, получить на https://huggingface.co/settings/tokens
+	// Пример: "hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	apiKey := os.Getenv("HUGGINGFACE_API_KEY")
+	if apiKey == "" {
+		panic("HUGGINGFACE_API_KEY is not set")
+	}
+
+	// Получаем URL из конфига или используем дефолтный
+	hfURL := os.Getenv("HUGGINGFACE_CHAT_URL")
+	if hfURL == "" {
+		panic("HUGGINGFACE_CHAT_URL is not set")
+	}
+
+	// Combine system prompt and user message for the chat format
+	userContent := websiteReq.System + "\n\nЗапрос пользователя: " + websiteReq.Message
+
+	hfReq := HuggingFaceChatRequest{
+		Model: "ibm-granite/granite-3.3-8b-instruct",
+		Messages: []HuggingFaceChatMessage{
+			{
+				Role:    "user",
+				Content: userContent,
+			},
+		},
+		Stream: false,
+	}
+
+	jsonData, err := json.Marshal(hfReq)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal request: %w", err)
+	}
+
+	fmt.Printf("Making request to URL: %s\n", hfURL)
+
+	req, err := http.NewRequest("POST", hfURL, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create HTTP request: %w", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+apiKey)
+
+	resp, err := c.Client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request to HuggingFace: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	fmt.Printf("HuggingFace API response status: %d\n", resp.StatusCode)
+	fmt.Printf("HuggingFace API response body: %s\n", string(body))
+
+	if resp.StatusCode != http.StatusOK {
+		// Добавляем более детальную информацию об ошибке
+		if resp.StatusCode == 404 {
+			return nil, fmt.Errorf("endpoint not found. Check the URL")
+		}
+		if resp.StatusCode == 401 {
+			return nil, fmt.Errorf("неверный API ключ HuggingFace. Проверьте HUGGINGFACE_API_KEY")
+		}
+		if resp.StatusCode == 503 {
+			return nil, fmt.Errorf("service unavailable. Try again later")
+		}
+		return nil, fmt.Errorf("HuggingFace API returned status %d: %s", resp.StatusCode, string(body))
+	}
+
+	var hfResp HuggingFaceChatResponse
+	if err := json.Unmarshal(body, &hfResp); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response: %w", err)
+	}
+
+	if len(hfResp.Choices) == 0 {
+		return nil, fmt.Errorf("received empty choices from HuggingFace")
+	}
+
+	// Extract the content from the assistant's message
+	generatedText := hfResp.Choices[0].Message.Content
+
+	llmResp := &LLMResponse{
+		Response: generatedText,
+		Done:     true,
+		Error:    "",
+	}
+
+	return llmResp, nil
+}
+
+// GenerateWebsiteHF генерирует веб-сайт используя Hugging Face API
+func (c *WebsiteBuilderClient) GenerateWebsiteHF(userInput string, requirements Requirements) (string, error) {
+	websiteReq, err := c.ProcessWebsiteRequestHF(userInput, requirements)
+	if err != nil {
+		return "", fmt.Errorf("failed to process website request: %w", err)
+	}
+
+	llmResp, err := c.SendToHuggingFace(websiteReq)
+	if err != nil {
+		return "", fmt.Errorf("failed to get HuggingFace response: %w", err)
+	}
+
+	if llmResp.Response == "" {
+		return "", fmt.Errorf("received empty response from HuggingFace")
+	}
+
+	// Извлекаем HTML из ответа перед отправкой на frontend
+	processedResponse := extractHTMLFromResponse(llmResp.Response)
+	return processedResponse, nil
 }

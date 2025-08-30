@@ -40,7 +40,8 @@ func BuildHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	builderClient := NewWebsiteBuilderClient()
-	websiteHTML, err := builderClient.GenerateWebsite(buildReq.Message, buildReq.Requirements)
+	// websiteHTML, err := builderClient.GenerateWebsite(buildReq.Message, buildReq.Requirements)
+	websiteHTML, err := builderClient.GenerateWebsiteHF(buildReq.Message, buildReq.Requirements)
 
 	var response BuildResponse
 	if err != nil {
