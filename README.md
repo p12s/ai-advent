@@ -19,3 +19,8 @@
 - [15. Real task](15/README.md)
 - [16. Parameters](16/README.md)
 - [17. Compression + Start](17/README.md)
+- [18. Compression + Start](18/README.md)
+- [19. Pairing](19/README.md)
+- [20. Local LLM](20/README.md)
+- [21. Hugging Face](21/README.md)
+- [22. CI/CD](22/README.md)
