@@ -1,9 +1,8 @@
-# Compression + Start
+# CI/CD
 
-- Do the same as the previous day, but try to achieve this with the least amount of tokens (throwing out all unnecessary)
+- Add an agent to the pipeline part (collecting documentation, forming key features, you can take something of your own)
 
-Result: Sources are uploaded, the problem is solved (for example, a bug is fixed), while the minimum number of tokens
+Result: Working pipeline
 Format: Video + Code
 
 ## Video
-https://disk.yandex.com/i/TPeNCId0ZyNv_w

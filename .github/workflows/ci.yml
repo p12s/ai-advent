@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    concurrency: lint
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+      - name: Install dependencies
+        working-directory: 22/back
+        run: go mod tidy
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: 22/back
+          args: --timeout=5m
+
+  test-unit:
+    name: Unit Tests
+    needs: lint
+    runs-on: ubuntu-latest
+    concurrency: tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+          cache: true
+      - name: Install dependencies
+        working-directory: 22/back
+        run: go mod tidy
+      - name: Run unit tests
+        working-directory: 22/back
+        run: go test -count 1 -race ./...
+
+  matrix:
+    name: Matrix
+    needs: [test-unit]
+    concurrency: matrix
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
+    strategy:
+      matrix:
+        go-version: [ '1.24', '1.25' ]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+      - name: Install dependencies
+        working-directory: 22/back
+        run: go mod tidy
+      - name: Build application
+        working-directory: 22/back
+        run: go build -v -o chat-backend ./...
