@@ -24,3 +24,5 @@
 - [20. Local LLM](20/README.md)
 - [21. Hugging Face](21/README.md)
 - [22. CI/CD](22/README.md)
+- [23. Memory](23/README.md)
+- [24. Voice](24/README.md)

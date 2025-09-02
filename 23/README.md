@@ -1,8 +1,9 @@
-# CI/CD
+# Memory
 
-- Add an agent to the pipeline part (collecting documentation, forming key features, you can take something of your own)
+- Make it so that the agent can be stopped at some point and continue with the saved memory (for example, in Redis, SQLite, or LangChain memory)
 
-Result: Working pipeline
+Result: Working code
 Format: Video + Code
 
 ## Video
+https://disk.yandex.com/i/Xw9zkvaggLlltg
