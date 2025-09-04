@@ -26,3 +26,5 @@
 - [22. CI/CD](22/README.md)
 - [23. Memory](23/README.md)
 - [24. Voice](24/README.md)
+- [25. Chain of Thought](25/README.md)
+- [26. Secure Agent](26/README.md)
