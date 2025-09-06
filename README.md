@@ -29,3 +29,4 @@
 - [25. Chain of Thought](25/README.md)
 - [26. Secure Agent](26/README.md)
 - [27. Personalization](27/README.md)
+- [28. Legacy Code Agent](28/README.md)
