@@ -1,0 +1,11 @@
+
+cd front
+npm install
+npm run dev
+
+
+
+cd back
+go mod tidy
+go run main.go
+
