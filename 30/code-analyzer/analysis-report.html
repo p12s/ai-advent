@@ -1,0 +1,170 @@
+Analyzing codebase at: /Users/user/repo/ai-advent/28/back
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Analysis Report</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px 8px 0 0; }
+        .header h1 { margin: 0; font-size: 2.5em; }
+        .header p { margin: 10px 0 0 0; opacity: 0.9; }
+        .summary { padding: 30px; border-bottom: 1px solid #eee; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .summary-card { background: #f8f9fa; padding: 20px; border-radius: 6px; text-align: center; }
+        .summary-card h3 { margin: 0 0 10px 0; color: #495057; }
+        .summary-card .number { font-size: 2em; font-weight: bold; color: #007bff; }
+        .section { padding: 30px; border-bottom: 1px solid #eee; }
+        .section h2 { margin: 0 0 20px 0; color: #495057; }
+        .issue { background: #f8f9fa; margin: 10px 0; padding: 15px; border-radius: 6px; border-left: 4px solid #dee2e6; }
+        .issue.critical { border-left-color: #dc3545; }
+        .issue.high { border-left-color: #fd7e14; }
+        .issue.medium { border-left-color: #ffc107; }
+        .issue.low { border-left-color: #17a2b8; }
+        .issue-header { font-weight: 600; color: #495057; }
+        .issue-file { color: #6c757d; font-size: 0.9em; margin: 5px 0; }
+        .issue-suggestion { color: #28a745; margin: 10px 0; font-style: italic; }
+        .severity { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; font-weight: 600; text-transform: uppercase; }
+        .severity.critical { background: #dc3545; color: white; }
+        .severity.high { background: #fd7e14; color: white; }
+        .severity.medium { background: #ffc107; color: #212529; }
+        .severity.low { background: #17a2b8; color: white; }
+        .no-issues { text-align: center; padding: 60px; color: #28a745; }
+        .no-issues h3 { font-size: 1.5em; margin: 0 0 10px 0; }
+        .footer { padding: 30px; background: #f8f9fa; border-radius: 0 0 8px 8px; }
+        .recommendations { list-style: none; padding: 0; }
+        .recommendations li { padding: 10px 0; border-bottom: 1px solid #dee2e6; }
+        .recommendations li:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Code Analysis Report</h1>
+            <p>Generated on September 6, 2025 at 12:42 PM • Duration: 2.184292ms</p>
+        </div>
+        
+        <div class="summary">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>Files Scanned</h3>
+                    <div class="number">46</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Lines Analyzed</h3>
+                    <div class="number">0</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Issues</h3>
+                    <div class="number">8</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Duplicates</h3>
+                    <div class="number">0</div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="section">
+            <h2>📦 Dependency Issues (8)</h2>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;github.com/kballard/go-shellquote&#39; is pre-v1.0 (v0.0.0-20180428030007-95032a82bc51) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:15 • Package: github.com/kballard/go-shellquote (vv0.0.0-20180428030007-95032a82bc51)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;github.com/mattn/go-isatty&#39; is pre-v1.0 (v0.0.16) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:16 • Package: github.com/mattn/go-isatty (vv0.0.16)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;github.com/remyoudompheng/bigfft&#39; is pre-v1.0 (v0.0.0-20230129092748-24d4a6f8daec) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:17 • Package: github.com/remyoudompheng/bigfft (vv0.0.0-20230129092748-24d4a6f8daec)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;golang.org/x/mod&#39; is pre-v1.0 (v0.3.0) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:18 • Package: golang.org/x/mod (vv0.3.0)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;golang.org/x/sys&#39; is pre-v1.0 (v0.9.0) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:19 • Package: golang.org/x/sys (vv0.9.0)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;golang.org/x/tools&#39; is pre-v1.0 (v0.0.0-20201124115921-2c860bdd6e78) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:20 • Package: golang.org/x/tools (vv0.0.0-20201124115921-2c860bdd6e78)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;golang.org/x/xerrors&#39; is pre-v1.0 (v0.0.0-20200804184101-5ec99f83aff1) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:21 • Package: golang.org/x/xerrors (vv0.0.0-20200804184101-5ec99f83aff1)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+            <div class="issue medium">
+                <div class="issue-header">
+                    <span class="severity medium">medium</span>
+                    Module &#39;modernc.org/opt&#39; is pre-v1.0 (v0.1.3) and may be unstable
+                </div>
+                <div class="issue-file">/Users/user/repo/ai-advent/28/back/go.mod:28 • Package: modernc.org/opt (vv0.1.3)</div>
+                <div class="issue-suggestion">💡 Consider using a stable v1.0&#43; version if available</div>
+            </div>
+            
+        </div>
+        
+        
+        
+        
+        <div class="footer">
+            <h3>💡 Recommendations</h3>
+            <ul class="recommendations">
+                <li>🚨 Address critical and high severity issues first</li>
+                <li>🔒 Focus on security vulnerabilities in dependencies</li>
+                <li>🔄 Refactor duplicate code into reusable functions</li>
+                <li>📏 Break down complex functions into smaller ones</li>
+                <li>📦 Update outdated dependencies to latest stable versions</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

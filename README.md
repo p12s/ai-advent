@@ -30,3 +30,5 @@
 - [26. Secure Agent](26/README.md)
 - [27. Personalization](27/README.md)
 - [28. Legacy Code Agent](28/README.md)
+- [29. Chain of Agents](29/README.md)
+- [30. God Agent](30/README.md)
